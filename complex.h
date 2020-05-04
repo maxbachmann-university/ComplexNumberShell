@@ -59,8 +59,8 @@ template<typename T> complex<T> atanh(const complex<T>&);
 template<typename T>
 struct complex
 {
-  constexpr complex(const T& r = T(), const T& i = T())
-    : m_real(r), m_imag(i) { }
+  constexpr complex(const T& real = T(), const T& imag = T())
+    : m_real(real), m_imag(imag) { }
 
   constexpr complex(const complex&) = default;
 
@@ -78,15 +78,15 @@ struct complex
   void real(T val) { m_real = val; }
   void imag(T val) { m_imag = val; }
 
-  complex<T>& operator+=(const T& val) {
-	  m_real += val;
-	  return *this;
-  }
+  complex<T>& operator+=(const T&);
 
-  complex<T>& operator-=(const T& val) {
-	  m_real -= val;
-	  return *this;
-  }
+  template<typename U>
+  complex<T>& operator+=(const complex<U>&);
+
+  complex<T>& operator-=(const T&);
+
+  template<typename U>
+  complex<T>& operator-=(const complex<U>&);
 
   complex<T>& operator*=(const T&);
 
@@ -98,225 +98,222 @@ struct complex
   template<typename U>
   complex<T>& operator/=(const complex<U>&);
 
-  template<typename U>
-  complex<T>& operator+=(const complex<U>&);
-  
-  template<typename U>
-  complex<T>& operator-=(const complex<U>&);
-
 private:
   T m_real;
   T m_imag;
 };
 
 template<typename T>
-complex<T>& complex<T>::operator=(const T& val) {
-  m_real = val;
-  m_imag = 0;
+complex<T>& complex<T>::operator=(const T& rhs) {
+  m_real = rhs;
+  m_imag = T();
   return *this;
 }
 
 template<typename T>
-complex<T>&
-complex<T>::operator*=(const T& val)
-{
-  m_real *= val;
-  m_imag *= val;
+complex<T>& complex<T>::operator+=(const T& rhs) {
+  m_real += rhs;
+	return *this;
+}
+
+template<typename T>
+complex<T>& complex<T>::operator-=(const T& rhs) {
+  m_real -= rhs;
   return *this;
 }
 
 template<typename T>
-complex<T>& complex<T>::operator/=(const T& val)
+complex<T>& complex<T>::operator*=(const T& rhs)
 {
-  m_real /= val;
-  m_imag /= val;
+  m_real *= rhs;
+  m_imag *= rhs;
   return *this;
 }
 
 template<typename T>
-template<typename U>
-complex<T>& complex<T>::operator+=(const complex<U>& z)
+complex<T>& complex<T>::operator/=(const T& rhs)
 {
-  m_real += z.real();
-  m_imag += z.imag();
-  return *this;
-}
-
-template<typename T>
-template<typename U>
-complex<T>& complex<T>::operator-=(const complex<U>& z)
-{
-  m_real -= z.real();
-  m_imag -= z.imag();
+  m_real /= rhs;
+  m_imag /= rhs;
   return *this;
 }
 
 template<typename T>
 template<typename U>
-complex<T>& complex<T>::operator*=(const complex<U>& z)
+complex<T>& complex<T>::operator+=(const complex<U>& rhs)
 {
-  const T r = m_real * z.real() - m_imag * z.imag();
-  m_imag = m_real * z.imag() + m_imag * z.real();
-  m_real = r;
+  m_real += rhs.real();
+  m_imag += rhs.imag();
   return *this;
 }
 
 template<typename T>
 template<typename U>
-complex<T>& complex<T>::operator/=(const complex<U>& z)
+complex<T>& complex<T>::operator-=(const complex<U>& rhs)
 {
-  const T r =  m_real * z.real() + m_imag * z.imag();
-  const T n = norm(z);
-  m_imag = (m_imag * z.real() - m_real * z.imag()) / n;
-  m_real = r / n;
+  m_real -= rhs.real();
+  m_imag -= rhs.imag();
   return *this;
 }
 
 template<typename T>
-inline complex<T> operator+(const complex<T>& x, const complex<T>& y)
+template<typename U>
+complex<T>& complex<T>::operator*=(const complex<U>& rhs)
 {
-  complex<T> r = x;
-  r += y;
-  return r;
+  const T temp = m_real * rhs.real() - m_imag * rhs.imag();
+  m_imag = m_real * rhs.imag() + m_imag * rhs.real();
+  m_real = temp;
+  return *this;
 }
 
 template<typename T>
-inline complex<T> operator+(const complex<T>& x, const T& y)
+template<typename U>
+complex<T>& complex<T>::operator/=(const complex<U>& rhs)
 {
-  complex<T> r = x;
-  r += y;
-  return r;
+  const T _norm = norm(rhs);
+  const T temp = (m_real * rhs.real() + m_imag * rhs.imag()) / _norm;
+  m_imag = (m_imag * rhs.real() - m_real * rhs.imag()) / _norm;
+  m_real = temp;
+  return *this;
 }
 
 template<typename T>
-inline complex<T> operator+(const T& x, const complex<T>& y)
+inline complex<T> operator+(const complex<T>& lhs, const complex<T>& rhs)
 {
-  return y + x;
+  complex<T> result = lhs;
+  result += rhs;
+  return result;
 }
 
 template<typename T>
-inline complex<T> operator+(const complex<T>& x)
+inline complex<T> operator+(const complex<T>& lhs, const T& rhs)
 {
-	return x;
+  complex<T> result = lhs;
+  result += rhs;
+  return result;
+}
+
+template<typename T>
+inline complex<T> operator+(const T& lhs, const complex<T>& rhs)
+{
+  return rhs + lhs;
+}
+
+template<typename T>
+inline complex<T> operator+(const complex<T>& rhs)
+{
+	return rhs;
 }
 
 
 template<typename T>
-inline complex<T>
-operator-(const complex<T>& x, const complex<T>& y)
+inline complex<T> operator-(const complex<T>& lhs, const complex<T>& rhs)
 {
-  complex<T> r = x;
-  r -= y;
-  return r;
+  complex<T> result = lhs;
+  result -= rhs;
+  return result;
 }
 
 template<typename T>
-inline complex<T>
-operator-(const complex<T>& x, const T& y)
+inline complex<T> operator-(const complex<T>& lhs, const T& rhs)
 {
-  complex<T> r = x;
-  r -= y;
-  return r;
+  complex<T> result = lhs;
+  result -= rhs;
+  return result;
 }
 
 template<typename T>
-inline complex<T>
-operator-(const T& x, const complex<T>& y)
+inline complex<T> operator-(const T& lhs, const complex<T>& rhs)
 {
-  complex<T> r = -y;
-  r += x;
-  return r;
+  complex<T> result = -rhs;
+  result += lhs;
+  return result;
 }
 
 template<typename T>
-inline complex<T>
-operator-(const complex<T>& x)
+inline complex<T> operator-(const complex<T>& rhs)
 {
-	return complex<T>(-x.real(), -x.imag());
+	return complex<T>(-rhs.real(), -rhs.imag());
 }
 
 template<typename T>
-inline complex<T> operator*(const complex<T>& x, const complex<T>& y)
+inline complex<T> operator*(const complex<T>& lhs, const complex<T>& rhs)
 {
-  complex<T> r = x;
-  r *= y;
-  return r;
+  complex<T> result = lhs;
+  result *= rhs;
+  return result;
 }
 
 template<typename T>
-inline complex<T>
-operator*(const complex<T>& x, const T& y)
+inline complex<T> operator*(const complex<T>& lhs, const T& rhs)
 {
-  complex<T> r = x;
-  r *= y;
-  return r;
+  complex<T> result = lhs;
+  result *= rhs;
+  return result;
 }
 
 template<typename T>
-inline complex<T>
-operator*(const T& x, const complex<T>& y)
+inline complex<T> operator*(const T& lhs, const complex<T>& rhs)
 {
-  return y * x;
+  return rhs * lhs;
 }
 
 template<typename T>
-inline complex<T>
-operator/(const complex<T>& x, const complex<T>& y)
+inline complex<T> operator/(const complex<T>& lhs, const complex<T>& rhs)
 {
-  complex<T> r = x;
-  r /= y;
-  return r;
+  complex<T> result = lhs;
+  result /= rhs;
+  return result;
 }
 
 template<typename T>
-inline complex<T> operator/(const complex<T>& x, const T& y)
+inline complex<T> operator/(const complex<T>& lhs, const T& rhs)
 {
-  complex<T> r = x;
-  r /= y;
-  return r;
+  complex<T> result = lhs;
+  result /= rhs;
+  return result;
 }
 
 template<typename T>
-inline complex<T> operator/(const T& x, const complex<T>& y)
+inline complex<T> operator/(const T& lhs, const complex<T>& rhs)
 {
-  return y / x;
+  return rhs / lhs;
 }
 
 template<typename T>
-inline constexpr bool operator==(const complex<T>& x, const complex<T>& y)
+inline constexpr bool operator==(const complex<T>& lhs, const complex<T>& rhs)
 {
-  return x.real() == y.real() && x.imag() == y.imag();
+  return lhs.real() == rhs.real() && lhs.imag() == rhs.imag();
 }
 
 template<typename T>
-inline constexpr bool operator==(const complex<T>& x, const T& y)
+inline constexpr bool operator==(const complex<T>& lhs, const T& rhs)
 {
-  return x.real() == y && x.imag() == 0;
+  return lhs.real() == rhs && lhs.imag() == 0;
 }
 
 template<typename T>
-inline constexpr bool operator==(const T& x, const complex<T>& y)
+inline constexpr bool operator==(const T& lhs, const complex<T>& rhs)
 {
-  return y == x;
+  return rhs == lhs;
 }
 
 template<typename T>
-inline constexpr bool operator!=(const complex<T>& x, const complex<T>& y)
+inline constexpr bool operator!=(const complex<T>& lhs, const complex<T>& rhs)
 {
-  return !(x == y);
+  return !(lhs == rhs);
 }
 
 template<typename T>
-inline constexpr bool operator!=(const complex<T>& x, const T& y)
+inline constexpr bool operator!=(const complex<T>& lhs, const T& rhs)
 {
-  return !(x == y);
+  return !(lhs == rhs);
 }
 
 template<typename T>
-inline constexpr bool
-operator!=(const T& x, const complex<T>& y)
+inline constexpr bool operator!=(const T& lhs, const complex<T>& rhs)
 {
-  return !(x == y);
+  return !(lhs == rhs);
 }
 
 template<typename T, typename CharT, class Traits>
@@ -364,15 +361,15 @@ constexpr T imag(const T&)
 template<typename T>
 inline T abs(const complex<T>& z)
 {
-  T r = z.real();
-  T i = z.imag();
-  const T s = std::max(std::abs(r), std::abs(i));
+  T _real = z.real();
+  T _imag = z.imag();
+  const T s = std::max(std::abs(_real), std::abs(_imag));
   if (s == 0) {
     return s;
   }
-  r /= s;
-  i /= s;
-  return s * std::sqrt(std::pow(r, 2) + std::pow(i, 2));
+  _real /= s;
+  _imag /= s;
+  return s * std::sqrt(std::pow(_real, 2) + std::pow(_imag, 2));
 }
 
 template<typename T>
@@ -402,17 +399,17 @@ inline complex<T> conj(const complex<T>& z)
 template<typename T>
 inline complex<T> cos(const complex<T>& z)
 {
-  const T r = z.real();
-  const T i = z.imag();
-  return complex<T>(std::cos(r) * std::cosh(i), -std::sin(r) * std::sinh(i));
+  const T _real = z.real();
+  const T _imag = z.imag();
+  return complex<T>(std::cos(_real) * std::cosh(_imag), -std::sin(_real) * std::sinh(_imag));
 }
 
 template<typename T>
 inline complex<T> cosh(const complex<T>& z)
 {
-  const T r = z.real();
-  const T i = z.imag();
-  return complex<T>(std::cosh(r) * std::cos(i), std::sinh(r) * std::sin(i));
+  const T _real = z.real();
+  const T _imag = z.imag();
+  return complex<T>(std::cosh(_real) * std::cos(_imag), std::sinh(_real) * std::sin(_imag));
 }
 
 template<typename T>
@@ -436,34 +433,34 @@ inline complex<T> log10(const complex<T>& z)
 template<typename T>
 inline complex<T> sin(const complex<T>& z)
 {
-  const T r = z.real();
-  const T i = z.imag();
-  return complex<T>(std::sin(r) * std::cosh(i), std::cos(r) * std::sinh(i));
+  const T _real = z.real();
+  const T _imag = z.imag();
+  return complex<T>(std::sin(_real) * std::cosh(_imag), std::cos(_real) * std::sinh(_imag));
 }
 
 template<typename T>
 inline complex<T> sinh(const complex<T>& z)
 {
-  const T r = z.real();
-  const T  i = z.imag();
-  return complex<T>(std::sinh(r) * std::cos(i), std::cosh(r) * std::sin(i));
+  const T _real = z.real();
+  const T _imag = z.imag();
+  return complex<T>(std::sinh(_real) * std::cos(_imag), std::cosh(_real) * std::sin(_imag));
 }
 
 template<typename T>
 inline complex<T> sqrt(const complex<T>& z)
 {
-  T r = z.real();
-  T i = z.imag();
+  T _real = z.real();
+  T _imag = z.imag();
 
-  if (r == 0){
-    T root = std::sqrt(std::abs(i) / 2);
-    return complex<T>(root, i < 0 ? -root : root);
+  if (_real == 0){
+    T _sqrt = std::sqrt(std::abs(_imag) / 2);
+    return complex<T>(_sqrt, _imag < 0 ? -_sqrt : _sqrt);
   } else {
-    T root = std::sqrt(2 * (std::abs(z) + std::abs(r)));
-    T root_2 = root / 2;
-    return r > 0
-      ? complex<T>(root_2, i / root)
-      : complex<T>(std::abs(i) / root, i < 0 ? -root_2 : root_2);
+    T _sqrt = std::sqrt(2 * (abs(z) + std::abs(_real)));
+    T _sqrt_2 = _sqrt / 2;
+    return _real > 0
+      ? complex<T>(_sqrt_2, _imag / _sqrt)
+      : complex<T>(std::abs(_imag) / _sqrt, _imag < 0 ? -_sqrt_2 : _sqrt_2);
    }
 }
 
@@ -480,17 +477,17 @@ inline complex<T> tanh(const complex<T>& z)
 }
 
 template<typename T>
-complex<T> pow(const complex<T>& x, const T& n)
+complex<T> pow(const complex<T>& z, const T& n)
 {
-  if (x == 0) {
+  if (z == 0) {
     return 0;
   }
 
-  if (x.imag() == 0 && x.real() > 0) {
-    return std::pow(x.real(), n);
+  if (z.imag() == 0 && z.real() > 0) {
+    return std::pow(z.real(), n);
   }
 
-  complex<T> temp = log(x);
+  complex<T> temp = log(z);
   return polar<T>(std::exp(n * temp.real()), n * temp.imag());
 }
 
@@ -526,22 +523,15 @@ inline complex<T> asin(const complex<T>& z)
 template<typename T>
 inline complex<T> atan(const complex<T>& z)
 {
-  const T r2 = std::pow(z.real(), 2);
-  const T x = T(1.0) - r2 - std::pow(z.imag(), 2);
-
-  T num = z.imag() + T(1.0);
-  T den = z.imag() - T(1.0);
-
-  T _imag = T(0.25) * (r2 + std::pow(num, 2)) / (r2 + std::pow(den, 2));
-
-  return complex<T>(T(0.5) * std::atan2(T(2.0) * z.real(), x), _imag);
+  complex<T> _atanh = atanh(complex<T>(-z.imag(), z.real()));
+  return complex<T>(_atanh.imag(), -_atanh.real());
 }
 
 template<typename T>
 inline complex<T> acosh(const complex<T>& z)
 {
   return T(2.0) * log(sqrt(T(0.5) * (z + T(1.0)))
-				 + sqrt(T(0.5) * (z - T(1.0))));
+		+ sqrt(T(0.5) * (z - T(1.0))));
 }
 
 template<typename T>
@@ -557,16 +547,17 @@ inline complex<T> asinh(const complex<T>& z)
 template<typename T>
 inline complex<T> atanh(const complex<T>& z)
 {
-  const T i2 = std::pow(z.imag(), 2);
-  const T x = T(1.0) - i2 - std::pow(z.real(), 2);
+  const T imag_pow = std::pow(z.imag(), 2);
+  const T x = T(1.0) - imag_pow - std::pow(z.real(), 2);
 
   T num = T(1.0) + z.real();
   T den = T(1.0) - z.real();
 
-  num = i2 + std::pow(num, 2);
-  den = i2 + std::pow(den, 2);
+  num = imag_pow + std::pow(num, 2);
+  den = imag_pow + std::pow(den, 2);
 
   T _real = T(0.25) * (std::log(num) - std::log(den));
+  T _imag = T(0.5) * std::atan2(T(2.0) * z.imag(), x);
 
-  return complex<T>(_real, T(0.5) * std::atan2(T(2.0) * z.imag(), x));
+  return complex<T>(_real, _imag);
 }
