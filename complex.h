@@ -1,5 +1,4 @@
 #include <cmath>
-#include <cassert>
 #include <algorithm>
 
 // Forward declarations.
@@ -14,7 +13,7 @@ template<typename T> T norm(const complex<T>&);
 ///  Return complex conjugate.
 template<typename T> complex<T> conj(const complex<T>&);
 ///  Return complex with magnitude rho and angle theta.
-template<typename T> complex<T> polar(const T&, const T& = 0);
+template<typename T> complex<T> polar(const T&, const T& = T());
 
 /// Return complex cosine.
 template<typename T> complex<T> cos(const complex<T>&);
@@ -61,7 +60,7 @@ class complex
 {
 public:
 
-  constexpr complex(const T& r = 0, const T& i = 0)
+  constexpr complex(const T& r = 0, const T& i = T())
     : m_real(r), m_imag(i) { }
 
   constexpr complex(const complex&) = default;
@@ -194,9 +193,7 @@ inline complex<T> operator+(const complex<T>& x, const T& y)
 template<typename T>
 inline complex<T> operator+(const T& x, const complex<T>& y)
 {
-  complex<T> r = y;
-  r += x;
-  return r;
+  return y + x;
 }
 
 template<typename T>
@@ -261,9 +258,7 @@ template<typename T>
 inline complex<T>
 operator*(const T& x, const complex<T>& y)
 {
-  complex<T> r = y;
-  r *= x;
-  return r;
+  return y * x;
 }
 
 template<typename T>
@@ -286,9 +281,7 @@ inline complex<T> operator/(const complex<T>& x, const T& y)
 template<typename T>
 inline complex<T> operator/(const T& x, const complex<T>& y)
 {
-  complex<T> r = x;
-  r /= y;
-  return r;
+  return y / x;
 }
 
 template<typename T>
@@ -306,26 +299,26 @@ inline constexpr bool operator==(const complex<T>& x, const T& y)
 template<typename T>
 inline constexpr bool operator==(const T& x, const complex<T>& y)
 {
-  return x == y.real() && 0 == y.imag();
+  return y == x;
 }
 
 template<typename T>
 inline constexpr bool operator!=(const complex<T>& x, const complex<T>& y)
 {
-  return x.real() != y.real() || x.imag() != y.imag();
+  return !(x == y);
 }
 
 template<typename T>
 inline constexpr bool operator!=(const complex<T>& x, const T& y)
 {
-  return x.real() != y || x.imag() != 0;
+  return !(x == y);
 }
 
 template<typename T>
 inline constexpr bool
 operator!=(const T& x, const complex<T>& y)
 {
-  return x != y.real() || 0 != y.imag();
+  return !(x == y);
 }
 
 
@@ -368,7 +361,7 @@ inline T abs(const complex<T>& z)
   }
   r /= s;
   i /= s;
-  return s * std::sqrt(r * r + i * i);
+  return s * std::sqrt(std::pow(r, 2) + std::pow(i, 2));
 }
 
 template<typename T>
@@ -386,7 +379,6 @@ inline T norm(const complex<T>& z)
 template<typename T>
 inline complex<T> polar(const T& rho, const T& theta)
 {
-  assert(( rho >= 0 ));
   return complex<T>(rho * std::cos(theta), rho * std::sin(theta));
 }
 
@@ -494,7 +486,7 @@ complex<T> pow(const complex<T>& x, const T& n)
 template<typename T>
 inline complex<T> pow(const complex<T>& x, const complex<T>& y)
 {
-  return x == 0 ? 0 : std::exp(y * log(x));
+  return x == 0 ? 0 : exp(y * log(x));
 }
 
 template<typename T>
@@ -502,7 +494,7 @@ inline complex<T> pow(const T& x, const complex<T>& y)
 {
   return x > 0
     ? polar<T>(pow(x, y.real()), y.imag() * log(x))
-	: pow(complex<T>(x), y);
+	  : pow(complex<T>(x), y);
 }
 
 template<typename T>
