@@ -1,8 +1,9 @@
 #include <cmath>
 #include <algorithm>
+#include <ostream>
 
 // Forward declarations.
-template<typename T> class complex;
+template<typename T> struct complex;
 
 ///  Return magnitude.
 template<typename T> T abs(const complex<T>&);
@@ -56,11 +57,9 @@ template<typename T> complex<T> atanh(const complex<T>&);
 
 
 template<typename T>
-class complex
+struct complex
 {
-public:
-
-  constexpr complex(const T& r = 0, const T& i = T())
+  constexpr complex(const T& r = T(), const T& i = T())
     : m_real(r), m_imag(i) { }
 
   constexpr complex(const complex&) = default;
@@ -77,7 +76,6 @@ public:
   constexpr T imag() const { return m_imag; }
 
   void real(T val) { m_real = val; }
-
   void imag(T val) { m_imag = val; }
 
   complex<T>& operator+=(const T& val) {
@@ -319,6 +317,19 @@ inline constexpr bool
 operator!=(const T& x, const complex<T>& y)
 {
   return !(x == y);
+}
+
+template<typename T, typename CharT, class Traits>
+std::basic_ostream<CharT, Traits>&
+operator<<(std::basic_ostream<CharT, Traits>& os, const complex<T>& z)
+{
+  if (z.real() == 0) {
+    return os << z.imag() << "j";
+  } else if (z.imag() >= 0) {
+    return os << "(" << z.real() << "+" << z.imag() << "j)";
+  } else {
+    return os << "(" << z.real() << z.imag() << "j)";
+  }
 }
 
 
