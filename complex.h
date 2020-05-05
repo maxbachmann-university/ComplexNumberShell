@@ -427,7 +427,7 @@ inline complex<T> log(const complex<T>& z)
 template<typename T>
 inline complex<T> log10(const complex<T>& z)
 {
-  return log(z) / std::log(T(10.0));
+  return log(z) / std::log(static_cast<T>(10.0));
 }
 
 template<typename T>
@@ -515,9 +515,8 @@ inline complex<T> acos(const complex<T>& z)
 template<typename T>
 inline complex<T> asin(const complex<T>& z)
 {
-  complex<T> temp(-z.imag(), z.real());
-  temp = asinh(temp);
-  return complex<T>(temp.imag(), -temp.real());
+  complex<T> _asinh = asinh(complex<T>(-z.imag(), z.real()));
+  return complex<T>(_asinh.imag(), -_asinh.real());
 }
 
 template<typename T>
@@ -530,15 +529,15 @@ inline complex<T> atan(const complex<T>& z)
 template<typename T>
 inline complex<T> acosh(const complex<T>& z)
 {
-  return T(2.0) * log(sqrt(T(0.5) * (z + T(1.0)))
-		+ sqrt(T(0.5) * (z - T(1.0))));
+  return static_cast<T>(2.0) * log(sqrt(static_cast<T>(0.5) * (z + static_cast<T>(1.0)))
+		+ sqrt(static_cast<T>(0.5) * (z - static_cast<T>(1.0))));
 }
 
 template<typename T>
 inline complex<T> asinh(const complex<T>& z)
 {
-  T _real = (z.real() - z.imag()) * (z.real() + z.imag()) + T(1.0);
-  T _imag = T(2.0) * z.real() * z.imag();
+  T _real = (z.real() - z.imag()) * (z.real() + z.imag()) + static_cast<T>(1.0);
+  T _imag = static_cast<T>(2.0) * z.real() * z.imag();
   complex<T> temp(_real, _imag);
 
   return log(sqrt(temp) + z);
@@ -548,16 +547,13 @@ template<typename T>
 inline complex<T> atanh(const complex<T>& z)
 {
   const T imag_pow = std::pow(z.imag(), 2);
-  const T x = T(1.0) - imag_pow - std::pow(z.real(), 2);
+  const T x = static_cast<T>(1.0) - imag_pow - std::pow(z.real(), 2);
 
-  T num = T(1.0) + z.real();
-  T den = T(1.0) - z.real();
+  T num = imag_pow + std::pow(static_cast<T>(1.0) + z.real(), 2);
+  T den = imag_pow + std::pow(static_cast<T>(1.0) - z.real(), 2);
 
-  num = imag_pow + std::pow(num, 2);
-  den = imag_pow + std::pow(den, 2);
-
-  T _real = T(0.25) * (std::log(num) - std::log(den));
-  T _imag = T(0.5) * std::atan2(T(2.0) * z.imag(), x);
+  T _real = static_cast<T>(0.25) * (std::log(num) - std::log(den));
+  T _imag = static_cast<T>(0.5) * std::atan2(static_cast<T>(2.0) * z.imag(), x);
 
   return complex<T>(_real, _imag);
 }
