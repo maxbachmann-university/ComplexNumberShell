@@ -9,7 +9,7 @@ template<typename T> struct complex;
 template<typename T> T abs(const complex<T>&);
 ///  Return phase angle.
 template<typename T> T arg(const complex<T>&);
-///  Return squared magnitude.
+///  Return squared magnitude (field norm)
 template<typename T> T norm(const complex<T>&);
 ///  Return complex conjugate.
 template<typename T> complex<T> conj(const complex<T>&);
@@ -225,15 +225,15 @@ inline complex<T> operator-(const complex<T>& lhs, const T& rhs)
 template<typename T>
 inline complex<T> operator-(const T& lhs, const complex<T>& rhs)
 {
-  complex<T> result = -rhs;
-  result += lhs;
+  complex<T> result = lhs;
+  result -= rhs;
   return result;
 }
 
 template<typename T>
 inline complex<T> operator-(const complex<T>& rhs)
 {
-	return complex<T>(-rhs.real(), -rhs.imag());
+	return {-rhs.real(), -rhs.imag()};
 }
 
 template<typename T>
@@ -361,15 +361,7 @@ constexpr T imag(const T&)
 template<typename T>
 inline T abs(const complex<T>& z)
 {
-  T _real = z.real();
-  T _imag = z.imag();
-  const T s = std::max(std::abs(_real), std::abs(_imag));
-  if (s == 0) {
-    return s;
-  }
-  _real /= s;
-  _imag /= s;
-  return s * std::sqrt(std::pow(_real, 2) + std::pow(_imag, 2));
+  return std::sqrt(std::pow(z.real(), 2) + std::pow(z.imag(), 2));
 }
 
 template<typename T>
@@ -449,20 +441,18 @@ inline complex<T> sinh(const complex<T>& z)
 template<typename T>
 inline complex<T> sqrt(const complex<T>& z)
 {
-  T _real = z.real();
-  T _imag = z.imag();
-
-  if (_real == 0){
-    T _sqrt = std::sqrt(std::abs(_imag) / 2);
-    return complex<T>(_sqrt, _imag < 0 ? -_sqrt : _sqrt);
+  if (z.real() == 0){
+    T _real = std::sqrt(std::abs(z.imag()) / 2);
+    T _imag = std::copysign(z.imag(), _real);
+    return {_real, _imag};
   } else {
-    T _sqrt = std::sqrt(2 * (abs(z) + std::abs(_real)));
-    T _sqrt_2 = _sqrt / 2;
-    return _real > 0
-      ? complex<T>(_sqrt_2, _imag / _sqrt)
-      : complex<T>(std::abs(_imag) / _sqrt, _imag < 0 ? -_sqrt_2 : _sqrt_2);
+    T _abs = abs(z);
+    T _real = std::sqrt((_abs + z.real())/2);
+    T _imag = std::copysign(z.imag(), std::sqrt((_abs - z.real())/2));
+    return {_real, _imag};
    }
 }
+
 
 template<typename T>
 inline complex<T> tan(const complex<T>& z)
