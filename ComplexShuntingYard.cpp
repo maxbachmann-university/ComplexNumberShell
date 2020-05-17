@@ -65,8 +65,7 @@ void ComplexShuntingYard::replace_exponential() {
 
 		size_t start_pos = tokens.find(match);
 		auto complex_replacement = Complex<double>::from_exponential({1, phi});
-		std::string replacement = "(" + complex_replacement.str() + ")";
-		tokens.replace(start_pos, match.length(), replacement);
+		tokens.replace(start_pos, match.length(), complex_replacement.str());
 	}
 }
 
@@ -89,8 +88,7 @@ void ComplexShuntingYard::replace_variables(const std::unordered_map<std::string
 
 		size_t start_pos = tokens.find(match);
 		auto complex_replacement = variable_mapping.at(match);
-		std::string replacement = "(" + complex_replacement.str() + ")";
-		tokens.replace(start_pos, match.length(), replacement);
+		tokens.replace(start_pos, match.length(), complex_replacement.str());
 	}
 }
 

@@ -153,11 +153,11 @@ Exponential<T> Complex<T>::to_exponential() const
 template<class T>
 std::string Complex<T>::str() const {
   if (m_real == 0) {
-	  return std::to_string(m_imag) + "j";
+	  return "(" + std::to_string(m_imag) + "j)";
   } else if (m_imag >= 0) {
-	  return std::to_string(m_real) + "+" + std::to_string(m_imag) + "j";
+	  return "(" + std::to_string(m_real) + "+" + std::to_string(m_imag) + "j)";
   } else {
-   	return std::to_string(m_real) + std::to_string(m_imag) + "j";
+   	return "(" + std::to_string(m_real) + std::to_string(m_imag) + "j)";
   }
 }
 

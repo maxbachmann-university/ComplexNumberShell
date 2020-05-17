@@ -9,7 +9,7 @@ CLI::CLI() {
 
 void CLI::print_startup() {
 	std::cout
-	  << "Welcome to the Complex Number Calculator\n"
+	  << "Welcome to the Complex Number Shell\n"
 	  << "type \"help()\", \"credits()\" for more information.\n";
 }
 
