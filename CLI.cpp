@@ -131,8 +131,8 @@ void CLI::assign_result(Complex<double> result) {
 		}
 
 		if (comma_pos) {
-			variable_mapping[assignment.substr(0, comma_pos)] = result.real();
-			variable_mapping[assignment.substr(comma_pos+1)] = Complex<double>(0, result.imag());
+			variable_mapping[assignment.substr(0, comma_pos)] = real(result);
+			variable_mapping[assignment.substr(comma_pos+1)] = Complex<double>(0, imag(result));
 
 		} else {
             variable_mapping[assignment] = result;

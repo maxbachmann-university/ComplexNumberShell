@@ -1,6 +1,8 @@
 // Interface taken from https://en.cppreference.com/w/cpp/numeric/complex
 #pragma once
 
+#include "Exponential.hpp"
+
 #include <cmath>
 #include <algorithm>
 #include <ostream>
@@ -59,15 +61,6 @@ template<typename T> Complex<T> asinh(const Complex<T>&);
 template<typename T> Complex<T> atanh(const Complex<T>&);
 
 template<typename T>
-struct Exponential {
-  T r;
-  T phi;
-  Exponential(T r, T phi)
-    : r(r), phi(phi) {}
-};
-
-
-template<typename T>
 struct Complex
 {
   constexpr Complex(const T& real = T(), const T& imag = T())
@@ -113,10 +106,60 @@ struct Complex
 
   Exponential<T> to_exponential() const;
 
+  std::string str() const;
+
 private:
   T m_real;
   T m_imag;
 };
+
+
+template<class T>
+Complex<T> Complex<T>::from_exponential(const Exponential<T>& z_exp)
+{
+    return { z_exp.r * std::cos(z_exp.phi), z_exp.r * std::sin(z_exp.phi) };
+
+}
+
+template<class T>
+Exponential<T> Complex<T>::to_exponential() const
+{
+    Exponential<T> z_exp(abs(*this), 0);
+
+    if (m_real > 0 && m_imag > 0)
+    {
+        z_exp.phi = std::atan(m_imag / m_real);
+    }
+    else if (m_real < 0 && m_imag > 0)
+    {
+        z_exp.phi = std::atan(m_imag / m_real) + 180;
+    }
+    else if (m_real < 0 && m_imag < 0)
+    {
+        z_exp.phi = std::atan(m_imag / m_real) + 180;
+    }
+    else if (m_real > 0 && m_imag < 0)
+    {
+        z_exp.phi = std::atan(m_imag / m_real) + 360;
+    }
+    else if (m_real == 0 && m_imag != 0)
+    {
+        throw std::invalid_argument{ "Umwandlung von kartesisch in exponential ist ohne Realteil mathematisch nicht möglich" };
+    }
+
+    return z_exp;
+}
+
+template<class T>
+std::string Complex<T>::str() const {
+  if (m_real == 0) {
+	  return std::to_string(m_imag) + "j";
+  } else if (m_imag >= 0) {
+	  return std::to_string(m_real) + "+" + std::to_string(m_imag) + "j";
+  } else {
+   	return std::to_string(m_real) + std::to_string(m_imag) + "j";
+  }
+}
 
 template<typename T>
 Complex<T>& Complex<T>::operator=(const T& rhs) {
@@ -335,23 +378,7 @@ template<typename T, typename CharT, class Traits>
 std::basic_ostream<CharT, Traits>&
 operator<<(std::basic_ostream<CharT, Traits>& os, const Complex<T>& z)
 {
-  if (z.real() == 0) {
-    return os << z.imag() << "j";
-  } else if (z.imag() >= 0) {
-    return os << "(" << z.real() << "+" << z.imag() << "j)";
-  } else {
-    return os << "(" << z.real() << z.imag() << "j)";
-  }
-}
-
-template<typename T, typename CharT, class Traits>
-std::basic_ostream<CharT, Traits>&
-operator<<(std::basic_ostream<CharT, Traits>& os, const Exponential<T>& exp_z)
-{
-  if (exp_z.r == 0) {
-    return os << 0;
-  }
-  return os << exp_z.r << "*e^j" << exp_z.phi;
+  return os << z.str();
 }
 
 /*************************/
@@ -569,40 +596,4 @@ inline Complex<T> atanh(const Complex<T>& z)
   T _imag = static_cast<T>(0.5) * std::atan2(static_cast<T>(2.0) * z.imag(), x);
 
   return Complex<T>(_real, _imag);
-}
-
-template<class T>
-Complex<T> Complex<T>::from_exponential(const Exponential<T>& z_exp)
-{
-    return { z_exp.r * std::cos(z_exp.phi), z_exp.r * std::sin(z_exp.phi) };
-
-}
-
-template<class T>
-Exponential<T> Complex<T>::to_exponential() const
-{
-    Exponential<T> z_exp(abs(*this), 0);
-
-    if (m_real > 0 && m_imag > 0)
-    {
-        z_exp.phi = std::atan(m_imag / m_real);
-    }
-    else if (m_real < 0 && m_imag > 0)
-    {
-        z_exp.phi = std::atan(m_imag / m_real) + 180;
-    }
-    else if (m_real < 0 && m_imag < 0)
-    {
-        z_exp.phi = std::atan(m_imag / m_real) + 180;
-    }
-    else if (m_real > 0 && m_imag < 0)
-    {
-        z_exp.phi = std::atan(m_imag / m_real) + 360;
-    }
-    else if (m_real == 0 && m_imag != 0)
-    {
-        throw std::invalid_argument{ "Umwandlung von kartesisch in exponential ist ohne Realteil mathematisch nicht möglich" };
-    }
-
-    return z_exp;
 }

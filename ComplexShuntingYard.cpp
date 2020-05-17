@@ -65,18 +65,7 @@ void ComplexShuntingYard::replace_exponential() {
 
 		size_t start_pos = tokens.find(match);
 		auto complex_replacement = Complex<double>::from_exponential({1, phi});
-		std::string replacement("(");
-
-        if (complex_replacement.real() == 0) {
-		    replacement += std::to_string(complex_replacement.imag()) + "j)";
-        } else if (complex_replacement.imag() >= 0) {
-		    replacement += std::to_string(complex_replacement.real())
-	            + "+" + std::to_string(complex_replacement.imag()) + "j)";
-        } else {
-           	replacement += std::to_string(complex_replacement.real())
-	            + std::to_string(complex_replacement.imag()) + "j)";
-        }
-
+		std::string replacement = "(" + complex_replacement.str() + ")";
 		tokens.replace(start_pos, match.length(), replacement);
 	}
 }
@@ -100,18 +89,7 @@ void ComplexShuntingYard::replace_variables(const std::unordered_map<std::string
 
 		size_t start_pos = tokens.find(match);
 		auto complex_replacement = variable_mapping.at(match);
-		std::string replacement("(");
-
-        if (complex_replacement.real() == 0) {
-		    replacement += std::to_string(complex_replacement.imag()) + "j)";
-        } else if (complex_replacement.imag() >= 0) {
-		    replacement += std::to_string(complex_replacement.real())
-	            + "+" + std::to_string(complex_replacement.imag()) + "j)";
-        } else {
-           	replacement += std::to_string(complex_replacement.real())
-	            + std::to_string(complex_replacement.imag()) + "j)";
-        }
-
+		std::string replacement = "(" + complex_replacement.str() + ")";
 		tokens.replace(start_pos, match.length(), replacement);
 	}
 }
