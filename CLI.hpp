@@ -14,10 +14,9 @@ public:
 	void read_new_command();
 private:
     std::string current_command;
-    std::vector<std::string> assignments;
     std::unordered_map<std::string, Complex<double>> variable_mapping;   
 
-    void assign_result(Complex<double> result);
+    void assign_result(const std::vector<std::string>& assignments, Complex<double> result);
 
     std::string remove_whitespace(std::string assignment) const;
 

@@ -17,6 +17,9 @@ std::string Exponential<T>::str() const {
   if (r == 0) {
     return "0";
   }
+  if (phi == 0) {
+	  return std::to_string(r);
+  }
   return std::to_string(r) + "*e^j" + std::to_string(phi);
 }
 

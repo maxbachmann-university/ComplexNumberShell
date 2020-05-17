@@ -72,6 +72,9 @@ void CLI::evaluate_command() {
 		print_help();
     } else if (current_command.rfind("euler_print(", 0) == 0 && current_command.back() == ')') {
 		std::string command = current_command.substr(12, current_command.length()-13);
+		if (command.find('=') != std::string::npos) {
+            throw std::invalid_argument("SyntaxError: Can not use assignment inside function call");
+		}
 		ComplexShuntingYard calc(command);
 		calc.replace_exponential();
 		calc.replace_variables(variable_mapping);
@@ -79,20 +82,27 @@ void CLI::evaluate_command() {
 		std::cout << result.to_exponential() << "\n";
     } else if (current_command.rfind("cartesian_print(", 0) == 0 && current_command.back() == ')') {
 	    std::string command = current_command.substr(16, current_command.length()-17);
+		if (command.find('=') != std::string::npos) {
+            throw std::invalid_argument("SyntaxError: Can not use assignment inside function call");
+		}
 		ComplexShuntingYard calc(command);
 		calc.replace_exponential();
 		calc.replace_variables(variable_mapping);
 		auto result = calc.evaluate();
 		std::cout << result << "\n";
     } else {
-		ComplexShuntingYard calc(current_command);
+       	std::vector<std::string> assignments = split_assignments(current_command);
+	    std::string command = assignments.back();
+	    assignments.pop_back();
+
+		ComplexShuntingYard calc(command);
 	    calc.replace_exponential();
 	    calc.replace_variables(variable_mapping);
 		auto result = calc.evaluate();
 		if (assignments.empty()) {
 		    std::cout << result << "\n";
 	    } else {
-			assign_result(result);
+			assign_result(assignments, result);
 		}
 	}
 }
@@ -102,13 +112,10 @@ void CLI::read_new_command() {
 	std::string command;
 	std::getline(std::cin, command);
 	// removing whitespace in assignment should not happen!!!
-	command = remove_whitespace(std::move(command));
-	assignments = split_assignments(command);
-	current_command = assignments.back();
-	assignments.pop_back();
+	current_command = remove_whitespace(std::move(command));
 }
 
-void CLI::assign_result(Complex<double> result) {
+void CLI::assign_result(const std::vector<std::string>& assignments, Complex<double> result) {
     for (const auto& assignment : assignments) {
 	    std::size_t comma_pos = 0;
 	    for (std::size_t i = 0; i<assignment.length(); ++i) {
