@@ -1,4 +1,4 @@
-// Interface taken from https://en.cppreference.com/w/cpp/numeric/complex
+// Interface inspired by the standard library https://en.cppreference.com/w/cpp/numeric/complex
 #pragma once
 
 #include "Exponential.hpp"
@@ -47,18 +47,6 @@ template<typename T> Complex<T> sqrt(const Complex<T>&);
 template<typename T> Complex<T> tan(const Complex<T>&);
 /// Return Complex hyperbolic tangent.
 template<typename T> Complex<T> tanh(const Complex<T>&);
-/// Return Complex inverse cosine.
-template<typename T> Complex<T> acos(const Complex<T>&);
-/// Return Complex inverse sine.
-template<typename T> Complex<T> asin(const Complex<T>&);
-/// Return Complex inverse tangent.
-template<typename T> Complex<T> atan(const Complex<T>&);
-/// Return Complex inverse hyperbolic cosine.
-template<typename T> Complex<T> acosh(const Complex<T>&);
-/// Return Complex inverse hyperbolic sine.
-template<typename T> Complex<T> asinh(const Complex<T>&);
-/// Return Complex inverse hyperbolic tangent.
-template<typename T> Complex<T> atanh(const Complex<T>&);
 
 template<typename T>
 struct Complex
@@ -152,12 +140,13 @@ Exponential<T> Complex<T>::to_exponential() const
 
 template<class T>
 std::string Complex<T>::str() const {
+  std::string str_imag = std::to_string(m_imag);
   if (m_real == 0) {
 	  return "(" + std::to_string(m_imag) + "j)";
-  } else if (m_imag >= 0) {
-	  return "(" + std::to_string(m_real) + "+" + std::to_string(m_imag) + "j)";
+  } else if (str_imag[0] != '-') {
+	  return "(" + std::to_string(m_real) + "+" + str_imag + "j)";
   } else {
-   	return "(" + std::to_string(m_real) + std::to_string(m_imag) + "j)";
+   	return "(" + std::to_string(m_real) + str_imag + "j)";
   }
 }
 
@@ -543,57 +532,4 @@ inline Complex<T> pow(const T& x, const Complex<T>& y)
   return x > 0
     ? polar<T>(pow(x, y.real()), y.imag() * log(x))
 	  : pow(Complex<T>(x), y);
-}
-
-template<typename T>
-inline Complex<T> acos(const Complex<T>& z)
-{
-  const Complex<T> temp = asin(z);
-  return Complex<T>(M_PI / 2 - temp.real(), -temp.imag());
-}
-
-template<typename T>
-inline Complex<T> asin(const Complex<T>& z)
-{
-  Complex<T> _asinh = asinh(Complex<T>(-z.imag(), z.real()));
-  return Complex<T>(_asinh.imag(), -_asinh.real());
-}
-
-template<typename T>
-inline Complex<T> atan(const Complex<T>& z)
-{
-  Complex<T> _atanh = atanh(Complex<T>(-z.imag(), z.real()));
-  return Complex<T>(_atanh.imag(), -_atanh.real());
-}
-
-template<typename T>
-inline Complex<T> acosh(const Complex<T>& z)
-{
-  return static_cast<T>(2.0) * log(sqrt(static_cast<T>(0.5) * (z + static_cast<T>(1.0)))
-		+ sqrt(static_cast<T>(0.5) * (z - static_cast<T>(1.0))));
-}
-
-template<typename T>
-inline Complex<T> asinh(const Complex<T>& z)
-{
-  T _real = (z.real() - z.imag()) * (z.real() + z.imag()) + static_cast<T>(1.0);
-  T _imag = static_cast<T>(2.0) * z.real() * z.imag();
-  Complex<T> temp(_real, _imag);
-
-  return log(sqrt(temp) + z);
-}
-
-template<typename T>
-inline Complex<T> atanh(const Complex<T>& z)
-{
-  const T imag_pow = std::pow(z.imag(), 2);
-  const T x = static_cast<T>(1.0) - imag_pow - std::pow(z.real(), 2);
-
-  T num = imag_pow + std::pow(static_cast<T>(1.0) + z.real(), 2);
-  T den = imag_pow + std::pow(static_cast<T>(1.0) - z.real(), 2);
-
-  T _real = static_cast<T>(0.25) * (std::log(num) - std::log(den));
-  T _imag = static_cast<T>(0.5) * std::atan2(static_cast<T>(2.0) * z.imag(), x);
-
-  return Complex<T>(_real, _imag);
 }

@@ -75,9 +75,7 @@ void CLI::evaluate_command() {
 		if (command.find('=') != std::string::npos) {
             throw std::invalid_argument("SyntaxError: Can not use assignment inside function call");
 		}
-		ComplexShuntingYard calc(command);
-		calc.replace_exponential();
-		calc.replace_variables(variable_mapping);
+		ComplexShuntingYard calc(command, variable_mapping);
 		auto result = calc.evaluate();
 		std::cout << result.to_exponential() << "\n";
     } else if (current_command.rfind("cartesian_print(", 0) == 0 && current_command.back() == ')') {
@@ -85,9 +83,7 @@ void CLI::evaluate_command() {
 		if (command.find('=') != std::string::npos) {
             throw std::invalid_argument("SyntaxError: Can not use assignment inside function call");
 		}
-		ComplexShuntingYard calc(command);
-		calc.replace_exponential();
-		calc.replace_variables(variable_mapping);
+		ComplexShuntingYard calc(command, variable_mapping);
 		auto result = calc.evaluate();
 		std::cout << result << "\n";
     } else {
@@ -95,9 +91,7 @@ void CLI::evaluate_command() {
 	    std::string command = assignments.back();
 	    assignments.pop_back();
 
-		ComplexShuntingYard calc(command);
-	    calc.replace_exponential();
-	    calc.replace_variables(variable_mapping);
+		ComplexShuntingYard calc(command, variable_mapping);
 		auto result = calc.evaluate();
 		if (assignments.empty()) {
 		    std::cout << result << "\n";
