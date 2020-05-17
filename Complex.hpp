@@ -1,3 +1,6 @@
+// Interface taken from https://en.cppreference.com/w/cpp/numeric/complex
+#pragma once
+
 #include <cmath>
 #include <algorithm>
 #include <ostream>
