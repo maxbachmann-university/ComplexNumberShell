@@ -39,13 +39,12 @@ void CLI::print_help() {
 		
 		<< "    Assignments:\n"
 		<< "       It is possible to assign the results of calculations to variables\n"
-		<< "       Operators (e.g. *) and numbers can not be used in variable names\n"
-		<< "       and it is not possible to use the literals i/j for variables, since they are used for complex numbers\n"
+		<< "       Operators (e.g. *) can not be used in variable names\n"
 		<< "       It is possible to save a complex number into two variables in the form (a,b)\n"
 		<< "       where the real part is stored in a and the imaginary part in b\n\n"
 		<< "       Example:\n"
-		<< "           >>> example_var = real, complex = 1+1j\n"
-		<< "           >>> example_var\n"
+		<< "           >>> example_var1 = real, complex = 1+1j\n"
+		<< "           >>> example_var1\n"
 		<< "           (1+1j)\n"
 		<< "           >>> real\n"
 		<< "           (1+0j)\n"
@@ -53,6 +52,41 @@ void CLI::print_help() {
 		<< "           1j\n\n"
 
 		<< "    Commands:\n"
+		<< "       These commands can be used inside expressions\n\n"
+		<< "       Example:\n"
+		<< "           >>> 2*abs(1+1i)\n"
+		<< "           (2.828428+0.000000j)\n\n"
+
+        << "       abs(<complex number>\n"
+        << "          Return magnitude\n"
+        << "       arg(<complex number>\n"
+        << "          Return phase angle\n"
+        << "       norm(<complex number>\n"
+        << "          Return squared magnitude (field norm)\n"
+        << "       conj(<complex number>\n"
+        << "          Return Complex conjugate\n"
+        << "       cos(<complex number>\n"
+        << "          Return Complex cosine\n"
+        << "       cosh(<complex number>\n"
+        << "          Return Complex hyperbolic cosine\n"
+        << "       exp(<complex number>\n"
+        << "          Return Complex base e exponential\n"
+        << "       log(<complex number>\n"
+        << "          Return Complex natural logarithm\n"
+        << "       log10(<complex number>\n"
+        << "          Return Complex base 10 logarithm\n"
+        << "       sin(<complex number>\n"
+        << "          Return Complex sine\n"
+        << "       sinh(<complex number>\n"
+        << "          Return Complex hyperbolic sine\n"
+        << "       sqrt(<complex number>\n"
+        << "          Return Complex square root\n"
+        << "       tan(<complex number>\n"
+        << "          Return Complex tangent\n"
+        << "       tanh(<complex number>\n"
+        << "          Return Complex hyperbolic tangent\n\n"
+		<< "    Global commands:\n"
+		<< "       These commands can not be used inside expressions\n\n"
 		<< "       euler_print(<complex number>)\n"
 		<< "          print complex number in euler form\n"
 		<< "       cartesian_print(<complex number>)\n"
@@ -111,12 +145,15 @@ void CLI::read_new_command() {
 
 void CLI::assign_result(const std::vector<std::string>& assignments, Complex<double> result) {
     for (const auto& assignment : assignments) {
+		if (assignment[0] >= '0' && assignment[0] <= '9') {
+			if (assignment.length() == 1) {
+				throw std::invalid_argument("SyntaxError: can't assign to literal");
+			}
+			throw std::invalid_argument("SyntaxError: invalid syntax");
+		}
 	    std::size_t comma_pos = 0;
 	    for (std::size_t i = 0; i<assignment.length(); ++i) {
 			const char ch = assignment[i];
-			if (ch >= '0' && ch <= '9') {
-				throw std::invalid_argument("SyntaxError: can't use numbers in variable names");
-			}
 			if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
 				throw std::invalid_argument("SyntaxError: can't assign to operator");
 			}

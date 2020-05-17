@@ -10,7 +10,7 @@ g++ main.cpp ComplexShuntingYard.cpp CLI.cpp -o ComplexNumberShell
 
 ## Usage
 ### Calculations
-Calculations can use the operators *, /, +, - and brackets to calculate complex numbers
+Calculations can use the operators *, /, +, - and brackets to calculate complex numbers.
 For the complex numbers the cartesian form (&lt;a&gt;+&lt;b&gt;i), the euler form (&lt;r&gt;*e^i&lt;phi&gt;), 
 or a variable holding a complex number can be used. It is possible to use j instead of i for complex numbers
 
@@ -27,16 +27,15 @@ Example:
 
 ### Assignments
 
-It is possible to assign the results of calculations to variables
-Operators (e.g. *) and numbers can not be used in variable names
-and it is not possible to use the literals i/j for variables, since they are used for complex numbers
+It is possible to assign the results of calculations to variables.
+Operators (e.g. *) can not be used in variable names
 It is possible to save a complex number into two variables in the form (a,b)
 where the real part is stored in a and the imaginary part in b
 
 Example:
 ```console
-> example_var = real, complex = 1+1j
-> example_var
+> example_var1 = real, complex = 1+1j
+> example_var1
 (1+1j)
 > real
 (1+0j)
@@ -45,6 +44,45 @@ Example:
 ```
 
 ### Commands
+These commands can be used inside expressions
+
+Example:
+```console
+> 2*abs(1+1i)
+(2.828428+0.000000j)
+```
+
+#### abs(&lt;complex number&gt;)
+Return magnitude
+#### arg(&lt;complex number&gt;)
+Return phase angle
+#### norm(&lt;complex number&gt;)
+Return squared magnitude (field norm)
+#### conj(&lt;complex number&gt;)
+Return Complex conjugate
+#### cos(&lt;complex number&gt;)
+Return Complex cosine
+#### cosh(&lt;complex number&gt;)
+Return Complex hyperbolic cosine
+#### exp(&lt;complex number&gt;)
+Return Complex base e exponential
+#### log(&lt;complex number&gt;)
+Return Complex natural logarithm
+#### log10(&lt;complex number&gt;)
+Return Complex base 10 logarithm
+#### sin(&lt;complex number&gt;)
+Return Complex sine
+#### sinh(&lt;complex number&gt;)
+Return Complex hyperbolic sine
+#### sqrt(&lt;complex number&gt;)
+Return Complex square root
+#### tan(&lt;complex number&gt;)
+Return Complex tangent
+#### tanh(&lt;complex number&gt;)
+Return Complex hyperbolic tangent
+
+### Global Commands
+These commands can not be used inside expressions
 #### euler_print(&lt;complex number&gt;)
 Print complex number in euler form
 
