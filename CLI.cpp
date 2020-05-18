@@ -1,249 +1,265 @@
 #include "CLI.hpp"
 #include "ComplexShuntingYard.hpp"
-#include <iostream>
 #include <exception>
+#include <iostream>
 #include <regex>
 
-template<class... Ts> struct overload : Ts... { using Ts::operator()...; };
-template<class... Ts> overload(Ts...) -> overload<Ts...>;
+template <class... Ts> struct overload : Ts... {
+  using Ts::operator()...;
+};
+template <class... Ts> overload(Ts...) -> overload<Ts...>;
 
-
-CLI::CLI() {
-    print_startup();
-}
-
-void CLI::evaluate_command() {
-    if (tokens.empty()) {
-        return;
-    }
-    std::vector<std::string> assignments = split_assignments(tokens);
-    tokens = assignments.back();
-    assignments.pop_back();
-
-    subsitute_variables();
-
-    std::vector<std::pair<std::string, std::string>> method_calls;
-    do {
-        method_calls = find_inner_method_calls();
-        for (const auto& method_call : method_calls) {
-            // inner is always a calculation since find_inner_method_calls
-            // finds the most inner function calls
-            Complex<double> inner_val = 0;
-            if (!method_call.second.empty()) {
-                inner_val = ComplexShuntingYard::evaluate(method_call.second);
-             }
-            auto result = call_func_by_name(method_call.first, inner_val);
-
-            std::string full_match = method_call.first + "(" + method_call.second + ")";
-            size_t start_pos = tokens.find(full_match);
-
-            if (result.index() == 0) {
-                if (!assignments.empty()) {
-                    throw std::invalid_argument("SyntaxError: can't assign None Type");
-                }
-                return;
-            }
-            std::string replacement = std::get<1>(result).str();
-
-            tokens.replace(start_pos, full_match.length(), replacement);
-        }
-    } while (!method_calls.empty());
-
-    Complex<double> result = ComplexShuntingYard::evaluate(tokens);
-    assign_result(assignments, result);
-}
-
-void CLI::subsitute_variables() {
-    // execute twice to catch all variables e.g. a*a -> (<complex>)*a -> (<complex>)*(<complex>)
-    for (int i = 0; i<2; ++i) {
-        std::regex variable_regex(R"(([\(\*\/\+\-]|^)([^\d\^\(\)\+\*\/\-][^\^\(\)\+\*\/\-]*)([\)\*\/\+\-]|$))");
-        auto variable_begin = std::sregex_iterator(tokens.begin(), tokens.end(), variable_regex);
-        auto variable_end = std::sregex_iterator();
-        std::vector<std::pair<std::string, std::size_t>> matches;
-
-        for (std::sregex_iterator i = variable_begin; i != variable_end; ++i) {
-            std::smatch match = *i;
-            matches.emplace_back(match[2].str(), match.position(2));
-        }
-
-        signed int pos_change = 0;
-        for (const auto& match : matches) {
-            if (variable_mapping.count(match.first) == 0) {
-                throw std::invalid_argument("NameError: name '" + match.first + "' is not defined");
-            }
-
-            std::string replacement = variable_mapping.at(match.first).str();
-            tokens.replace(match.second+pos_change, match.first.length(), replacement);
-            pos_change += replacement.length() - match.first.length();
-        }
-    }
-}
-
-std::vector<std::pair<std::string, std::string>> CLI::find_inner_method_calls() {
-    std::regex variable_regex(R"([^\s\d\(\)\+\*\/\-][^\s\(\)\+\*\/\-]*\([ij\.\d\+\*\-\+\(\)]*\))");
-    auto variable_begin = std::sregex_iterator(tokens.begin(), tokens.end(), variable_regex);
-    auto variable_end = std::sregex_iterator();
-    std::vector<std::string> matches;
-
-    for (std::sregex_iterator i = variable_begin; i != variable_end; ++i) {
-        std::smatch match = *i;
-        std::string match_str = match.str();
-        matches.push_back(match_str);
-    }
-    std::vector<std::pair<std::string, std::string>> ops;
-    for (auto match : matches) {
-        auto found=match.find("(");
-        std::string op = match.substr(0, found);
-        std::size_t brackets = 1;
-        std::size_t bracket_end = found+1;
-        for (; bracket_end < match.length() && brackets != 0; ++bracket_end) {
-            if (match[bracket_end] == ')') {
-                brackets -= 1;
-            } else if (match[bracket_end] == '(') {
-                brackets += 1;
-            }
-        }
-        if (brackets != 0) {
-            throw std::invalid_argument("Calculation failed: mismatched parentheses");
-        }
-
-        match = match.substr(0, bracket_end);
-        std::string calc = match.substr(found+1, bracket_end-found-2);
-        ops.emplace_back(op, calc);
-    }
-
-    return ops;
-}
-
-void CLI::read_new_command() {
-    std::cout << ">>> ";
-    std::string command;
-    std::getline(std::cin, command);
-    // removing whitespace in assignment should not happen!!!
-    current_command = remove_whitespace(std::move(command));
-    tokens = current_command;
-}
-
-
-void CLI::assign_result(const std::vector<std::string>& assignments, Complex<double> result)
+CLI::CLI()
 {
-    if (assignments.empty()) {
-        std::cout << result.str() << "\n";
+  print_startup();
+}
+
+void CLI::evaluate_command()
+{
+  if (tokens.empty()) {
+    return;
+  }
+  std::vector<std::string> assignments = split_assignments(tokens);
+  tokens = assignments.back();
+  assignments.pop_back();
+
+  subsitute_variables();
+
+  while (true) {
+    const auto method_calls = find_inner_method_calls();
+    if (method_calls.empty()) {
+      break;
+    }
+
+    for (const auto& method_call : method_calls) {
+      // inner is always a calculation since find_inner_method_calls
+      // finds the most inner function calls
+      Complex<double> inner_val = 0;
+      if (!method_call.second.empty()) {
+        inner_val = ComplexShuntingYard::evaluate(method_call.second);
+      }
+      const auto result = call_func_by_name(method_call.first, inner_val);
+
+      const std::string full_match =
+          method_call.first + "(" + method_call.second + ")";
+      const size_t start_pos = tokens.find(full_match);
+
+      if (result.index() == 0) {
+        if (!assignments.empty()) {
+          throw std::invalid_argument("SyntaxError: can't assign None Type");
+        }
         return;
+      }
+      const std::string replacement = std::get<1>(result).str();
+
+      tokens.replace(start_pos, full_match.length(), replacement);
+    }
+  }
+
+  assign_result(assignments, ComplexShuntingYard::evaluate(tokens));
+}
+
+void CLI::subsitute_variables()
+{
+  // execute twice to catch all variables e.g. a*a -> (<complex>)*a ->
+  // (<complex>)*(<complex>)
+  for (int i = 0; i < 2; ++i) {
+    const std::regex var_regex(
+        R"(([\(\*\/\+\-]|^)([a-zA-Z_][\w]*)([\)\*\/\+\-]|$))");
+    const auto var_begin =
+        std::sregex_iterator(tokens.begin(), tokens.end(), var_regex);
+    std::vector<std::pair<std::string, std::size_t>> matches;
+
+    for (auto i = var_begin; i != std::sregex_iterator(); ++i) {
+      std::smatch match = *i;
+      matches.emplace_back(match[2].str(), match.position(2));
     }
 
-    for (const auto& assignment : assignments) {
-        if (assignment[0] >= '0' && assignment[0] <= '9') {
-            if (assignment.length() == 1) {
-                throw std::invalid_argument("SyntaxError: can't assign to literal");
-            }
-            throw std::invalid_argument("SyntaxError: invalid syntax");
-        }
-        std::size_t comma_pos = 0;
-        for (std::size_t i = 0; i<assignment.length(); ++i) {
-            const char ch = assignment[i];
-            if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
-                throw std::invalid_argument("SyntaxError: can't assign to operator");
-            }
-            if (ch == ',') {
-                if (i == 0) {
-                    throw std::invalid_argument("SyntaxError: Invalid syntax");
-                }
-                if (comma_pos) {
-                    throw std::invalid_argument("SyntaxError: can only unpack complex to 1 or 2 variables");
-                }
-                comma_pos = i;
-            }
-        }
+    signed int pos_change = 0;
+    for (const auto& match : matches) {
+      if (variable_mapping.count(match.first) == 0) {
+        throw std::invalid_argument("NameError: name '" + match.first +
+                                    "' is not defined");
+      }
 
+      const std::string replacement = variable_mapping.at(match.first).str();
+      tokens.replace(match.second + pos_change, match.first.length(),
+                     replacement);
+      pos_change += replacement.length() - match.first.length();
+    }
+  }
+}
+
+std::vector<std::pair<std::string, std::string>> CLI::find_inner_method_calls()
+{
+  const std::regex variable_regex(R"([a-zA-Z_][\w]*\([ij\.\d\+\*\-\+\(\)]*\))");
+  const auto call_begin =
+      std::sregex_iterator(tokens.begin(), tokens.end(), variable_regex);
+  std::vector<std::string> matches;
+
+  for (auto i = call_begin; i != std::sregex_iterator(); ++i) {
+    std::smatch match = *i;
+    std::string match_str = match.str();
+    matches.push_back(match_str);
+  }
+
+  std::vector<std::pair<std::string, std::string>> ops;
+  for (const auto& match : matches) {
+    const auto found = match.find("(");
+    const std::string op = match.substr(0, found);
+    std::size_t brackets = 1;
+    std::size_t bracket_end = found + 1;
+    for (; bracket_end < match.length() && brackets != 0; ++bracket_end) {
+      if (match[bracket_end] == ')') {
+        brackets -= 1;
+      }
+      else if (match[bracket_end] == '(') {
+        brackets += 1;
+      }
+    }
+    if (brackets != 0) {
+      throw std::invalid_argument("Calculation failed: mismatched parentheses");
+    }
+
+    std::string calc = match.substr(found + 1, bracket_end - found - 2);
+    ops.emplace_back(op, calc);
+  }
+
+  return ops;
+}
+
+void CLI::read_new_command()
+{
+  std::cout << ">>> ";
+  std::string command;
+  std::getline(std::cin, command);
+  // removing whitespace in assignment should not happen!!!
+  command.erase(std::remove_if(command.begin(), command.end(),
+                               [](char x) { return std::isspace(x); }),
+                command.end());
+  tokens = current_command = command;
+}
+
+void CLI::assign_result(const std::vector<std::string>& assignments,
+                        const Complex<double> result)
+{
+  if (assignments.empty()) {
+    std::cout << result.str() << "\n";
+    return;
+  }
+
+  for (const auto& assignment : assignments) {
+    if (assignment[0] >= '0' && assignment[0] <= '9') {
+      if (assignment.length() == 1) {
+        throw std::invalid_argument("SyntaxError: can't assign to literal");
+      }
+      throw std::invalid_argument("SyntaxError: invalid syntax");
+    }
+    std::size_t comma_pos = 0;
+    for (std::size_t i = 0; i < assignment.length(); ++i) {
+      const char ch = assignment[i];
+      if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+        throw std::invalid_argument("SyntaxError: can't assign to operator");
+      }
+      if (ch == ',') {
+        if (i == 0) {
+          throw std::invalid_argument("SyntaxError: Invalid syntax");
+        }
         if (comma_pos) {
-            variable_mapping[assignment.substr(0, comma_pos)] = real(result);
-            variable_mapping[assignment.substr(comma_pos+1)] = Complex<double>(0, imag(result));
-
-        } else {
-            variable_mapping[assignment] = result;
+          throw std::invalid_argument(
+              "SyntaxError: can only unpack complex to 1 or 2 variables");
         }
-    }
-}
-
-std::string CLI::remove_whitespace(std::string assignment) const {
-    assignment.erase(
-        std::remove_if(assignment.begin(), assignment.end(), [](char x){ return std::isspace(x); }),
-        assignment.end());
-    return assignment;
-}
-
-std::vector<std::string> CLI::split_assignments(const std::string& assignment) const {
-    std::vector<std::string> output;
-
-    auto first = assignment.data(), second = assignment.data(), last = first + assignment.size();
-    for (; second != last && first != last; first = second + 1) {
-        second = std::find_if(first, last, [](const char& ch) {
-            return ch == '=';
-        });
-
-        if (first != second) {
-            output.emplace_back(first, second - first);
-        }
+        comma_pos = i;
+      }
     }
 
-    return output;
+    if (comma_pos) {
+      variable_mapping[assignment.substr(0, comma_pos)] = real(result);
+      variable_mapping[assignment.substr(comma_pos + 1)] =
+          Complex<double>(0, imag(result));
+    }
+    else {
+      variable_mapping[assignment] = result;
+    }
+  }
+}
+
+std::vector<std::string>
+CLI::split_assignments(const std::string& assignment) const
+{
+  std::vector<std::string> output;
+
+  auto first = assignment.data(), second = assignment.data(),
+       last = first + assignment.size();
+  for (; second != last && first != last; first = second + 1) {
+    second =
+        std::find_if(first, last, [](const char& ch) { return ch == '='; });
+
+    if (first != second) {
+      output.emplace_back(first, second - first);
+    }
+  }
+
+  return output;
 }
 
 std::variant<std::monostate, Complex<double>>
-CLI::call_func_by_name(std::string func_name, Complex<double> a){
-    if (func_name == "abs") return abs(a);
-    if (func_name == "arg") return arg(a);
-    if (func_name == "norm") return norm(a);
-    if (func_name == "conj") return conj(a);
-    if (func_name == "cos") return cos(a);
-    if (func_name == "cosh") return cosh(a);
-    if (func_name == "sin") return sin(a);
-    if (func_name == "sinh") return sinh(a);
-    if (func_name == "tan") return tan(a);
-    if (func_name == "tanh") return tanh(a);
-    if (func_name == "exp") return exp(a);
-    if (func_name == "log") return log(a);
-    if (func_name == "log10") return log10(a);
-    if (func_name == "sqrt") return sqrt(a);
-    if (func_name == "real") return real(a);
-    if (func_name == "imag") return imag(a);
-    if (func_name == "help") {
-        print_help();
-        return {};
-    }
-    if (func_name == "credits") {
-        print_credits();
-        return {};
-    }
-    if (func_name == "euler_print") {
-        std::cout << a.to_exponential() << "\n";
-        return {};
-    }
-    if (func_name == "print" || func_name == "cartesian_print") {
-        std::cout << a << "\n";
-        return {};
-    }
-    if (func_name == "quit" || func_name == "exit") exit(EXIT_SUCCESS);
-    throw std::invalid_argument("NameError: name '" + func_name + "' is not defined");
+CLI::call_func_by_name(const std::string& func_name, const Complex<double> a)
+{
+  if (func_name == "abs") return abs(a);
+  if (func_name == "arg") return arg(a);
+  if (func_name == "norm") return norm(a);
+  if (func_name == "conj") return conj(a);
+  if (func_name == "cos") return cos(a);
+  if (func_name == "cosh") return cosh(a);
+  if (func_name == "sin") return sin(a);
+  if (func_name == "sinh") return sinh(a);
+  if (func_name == "tan") return tan(a);
+  if (func_name == "tanh") return tanh(a);
+  if (func_name == "exp") return exp(a);
+  if (func_name == "log") return log(a);
+  if (func_name == "log10") return log10(a);
+  if (func_name == "sqrt") return sqrt(a);
+  if (func_name == "real") return real(a);
+  if (func_name == "imag") return imag(a);
+  if (func_name == "help") {
+    print_help();
+    return {};
+  }
+  if (func_name == "credits") {
+    print_credits();
+    return {};
+  }
+  if (func_name == "euler_print") {
+    std::cout << a.to_exponential() << "\n";
+    return {};
+  }
+  if (func_name == "print" || func_name == "cartesian_print") {
+    std::cout << a << "\n";
+    return {};
+  }
+  if (func_name == "quit" || func_name == "exit") exit(EXIT_SUCCESS);
+  throw std::invalid_argument("NameError: name '" + func_name +
+                              "' is not defined");
 }
 
-void CLI::print_startup() {
-    std::cout
-      << "Welcome to the Complex Number Shell\n"
-      << "type \"help()\", \"credits()\" for more information.\n";
+void CLI::print_startup()
+{
+  std::cout << "Welcome to the Complex Number Shell\n"
+            << "type \"help()\", \"credits()\" for more information.\n";
 }
 
-void CLI::print_credits() {
-    std::cout
-      << "Created by:\n"
-      << "  Bachmann Maximilian\n"
-      << "  Eisenmann Marvin\n"
-      << "  Vetter Florian\n";
+void CLI::print_credits()
+{
+  std::cout << "Created by:\n"
+            << "  Bachmann Maximilian\n"
+            << "  Eisenmann Marvin\n"
+            << "  Vetter Florian\n";
 }
 
-void CLI::print_help() {
-    std::cout << R"(Help:
+void CLI::print_help()
+{
+  std::cout << R"(Help:
     Calculations:
         Calculations can use the operators *, /, +, - and brackets to calculate complex numbers
         For the complex numbers the cartesian form (<a>+<b>i), the euler form (<r>*e^i<phi>),
