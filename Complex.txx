@@ -40,11 +40,11 @@ template<class T>
 std::string Complex<T>::str() const {
   std::string str_imag = std::to_string(m_imag);
   if (m_real == 0) {
-	  return "(" + std::to_string(m_imag) + "j)";
+      return "(" + std::to_string(m_imag) + "j)";
   } else if (str_imag[0] != '-') {
-	  return "(" + std::to_string(m_real) + "+" + str_imag + "j)";
+      return "(" + std::to_string(m_real) + "+" + str_imag + "j)";
   } else {
-   	return "(" + std::to_string(m_real) + str_imag + "j)";
+       return "(" + std::to_string(m_real) + str_imag + "j)";
   }
 }
 
@@ -58,7 +58,7 @@ Complex<T>& Complex<T>::operator=(const T& rhs) {
 template<typename T>
 Complex<T>& Complex<T>::operator+=(const T& rhs) {
   m_real += rhs;
-	return *this;
+    return *this;
 }
 
 template<typename T>
@@ -147,7 +147,7 @@ inline Complex<T> operator+(const T& lhs, const Complex<T>& rhs)
 template<typename T>
 inline Complex<T> operator+(const Complex<T>& rhs)
 {
-	return rhs;
+    return rhs;
 }
 
 
@@ -178,7 +178,7 @@ inline Complex<T> operator-(const T& lhs, const Complex<T>& rhs)
 template<typename T>
 inline Complex<T> operator-(const Complex<T>& rhs)
 {
-	return {-rhs.real(), -rhs.imag()};
+    return {-rhs.real(), -rhs.imag()};
 }
 
 template<typename T>
@@ -351,7 +351,7 @@ inline Complex<T> exp(const Complex<T>& z)
 template<typename T>
 inline Complex<T> log(const Complex<T>& z)
 {
-  return Complex<T>(std::log(abs(z)), arg(z)); 
+  return Complex<T>(std::log(abs(z)), arg(z));
 }
 
 template<typename T>
@@ -429,5 +429,5 @@ inline Complex<T> pow(const T& x, const Complex<T>& y)
 {
   return x > 0
     ? polar<T>(pow(x, y.real()), y.imag() * log(x))
-	  : pow(Complex<T>(x), y);
+      : pow(Complex<T>(x), y);
 }

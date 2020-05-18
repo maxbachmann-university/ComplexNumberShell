@@ -66,7 +66,7 @@ struct Complex
 
   template<typename U>
   constexpr Complex(const Complex<U>& z)
-	  : m_real(z.real()), m_imag(z.imag()) { }
+      : m_real(z.real()), m_imag(z.imag()) { }
 
   Complex<T>& operator=(const T&);
 

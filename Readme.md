@@ -4,14 +4,14 @@
 ## Compile
 
 ```bash
-g++ main.cpp ComplexShuntingYard.cpp CLI.cpp -o ComplexNumberShell
+g++ main.cpp ComplexShuntingYard.cpp CLI.cpp -o ComplexNumberShell -std=c++17
 ./ComplexNumberShell
 ```
 
 ## Usage
 ### Calculations
 Calculations can use the operators *, /, +, - and brackets to calculate complex numbers.
-For the complex numbers the cartesian form (&lt;a&gt;+&lt;b&gt;i), the euler form (&lt;r&gt;*e^i&lt;phi&gt;), 
+For the complex numbers the cartesian form (&lt;a&gt;+&lt;b&gt;i), the euler form (&lt;r&gt;*e^i&lt;phi&gt;),
 or a variable holding a complex number can be used. It is possible to use j instead of i for complex numbers
 
 Example:
@@ -90,7 +90,7 @@ These commands can not be used inside expressions
 #### euler_print(&lt;complex number&gt;)
 Print complex number in euler form
 
-#### cartesian_print(&lt;complex number&gt;)
+#### print(&lt;complex number&gt;)/cartesian_print(&lt;complex number&gt;)
 Print complex number in cartesian form
 
 #### quit()/exit()
