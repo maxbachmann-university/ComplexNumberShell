@@ -33,6 +33,8 @@ Complex<double> call_func_by_name(Complex<double> a, std::string func_name){
 	if (func_name == "log") return log(a);
 	if (func_name == "log10") return log10(a);
 	if (func_name == "sqrt") return sqrt(a);
+	if (func_name == "real") return real(a);
+	if (func_name == "imag") return imag(a);
 	throw std::invalid_argument("NameError: name '" + func_name + "' is not defined");
 }
 

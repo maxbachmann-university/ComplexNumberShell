@@ -48,10 +48,14 @@ These commands can be used inside expressions
 
 Example:
 ```console
-> 2*abs(1+1i)
+> real(2 + 1i) * abs(1+1i)
 (2.828428+0.000000j)
 ```
 
+#### real(&lt;complex number&gt;)
+Return real component of the complex number
+#### imag(&lt;complex number&gt;)
+Return imaginary component of the complex number
 #### abs(&lt;complex number&gt;)
 Return magnitude
 #### arg(&lt;complex number&gt;)

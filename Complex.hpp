@@ -10,6 +10,14 @@
 // Forward declarations.
 template<typename T> struct Complex;
 
+template<typename T> constexpr T real(const Complex<T>& z);
+
+template<typename T> constexpr T imag(const Complex<T>& z);
+
+template<typename T> constexpr T real(const T& z);
+
+template<typename T> constexpr T imag(const T&);
+
 ///  Return magnitude.
 template<typename T> T abs(const Complex<T>&);
 ///  Return phase angle.
