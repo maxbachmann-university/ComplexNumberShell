@@ -3,11 +3,20 @@
 #include <exception>
 #include <iostream>
 #include <regex>
+#include "CliText.hpp"
 
 template <class... Ts> struct overload : Ts... {
   using Ts::operator()...;
 };
 template <class... Ts> overload(Ts...) -> overload<Ts...>;
+
+bool is_char_underscore(char x) {
+    return (x == '_') || (x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z');
+}
+
+bool is_num_char_underscore(char x) {
+    return is_char_underscore(x) || (x >= '0' && x <= '9');
+}
 
 CLI::CLI()
 {
@@ -23,43 +32,82 @@ void CLI::evaluate_command()
   tokens = assignments.back();
   assignments.pop_back();
 
-  subsitute_variables();
+  auto methods = find_top_level_function_calls(tokens);
 
-  while (true) {
-    const auto method_calls = find_inner_method_calls();
-    if (method_calls.empty()) {
-      break;
-    }
+  for (auto method_iter = methods.rbegin(); method_iter != methods.rend(); ++method_iter ) {
+    const auto method = *method_iter;
+    std::size_t op_start  = method.op_start;
+    std::size_t op_len  = method.bracket_start-method.op_start;
+    std::size_t args_start  = method.bracket_start + 1;
+    std::size_t args_len  = method.bracket_end - method.bracket_start - 1;
 
-    for (const auto& method_call : method_calls) {
-      // inner is always a calculation since find_inner_method_calls
-      // finds the most inner function calls
-      Complex<double> inner_val = 0;
-      if (!method_call.second.empty()) {
-        inner_val = ComplexShuntingYard::evaluate(method_call.second);
-      }
-      const auto result = call_func_by_name(method_call.first, inner_val);
+    std::string op = tokens.substr(op_start, op_len);
+    std::string args = tokens.substr(args_start, args_len);
 
-      const std::string full_match =
-          method_call.first + "(" + method_call.second + ")";
-      const size_t start_pos = tokens.find(full_match);
+    std::string eval_args = evaluate_command_impl(args);
+    const auto result = call_func_by_name(op, eval_args);
 
-      if (result.index() == 0) {
+    if (result.index() == 0) {
+		    if (methods.size() > 1) {
+			    throw std::invalid_argument("SyntaxError: can't call with None");
+		    }
         if (!assignments.empty()) {
           throw std::invalid_argument("SyntaxError: can't assign None Type");
         }
         return;
       }
-      const std::string replacement = std::get<1>(result).str();
 
-      tokens.replace(start_pos, full_match.length(), replacement);
-    }
+    const std::string replacement = std::get<1>(result).str();
+    tokens.replace(op_start, op_len + args_len + 2, replacement);
   }
 
+  subsitute_variables(tokens);
   assign_result(assignments, ComplexShuntingYard::evaluate(tokens));
 }
 
-void CLI::subsitute_variables()
+std::vector<CLI::FuncPos> CLI::find_top_level_function_calls(std::string sample)
+{
+    std::vector<FuncPos> characterLocations;
+    std::size_t word_start = 0;
+    std::size_t word_len = 0;
+    std::size_t bracket_start = 0;
+    std::size_t bracket_count = 0;
+    for(std::size_t i =0; i < sample.size(); i++) {
+       if(sample[i] == '(') {
+           if (bracket_count) {
+               ++bracket_count;
+           } else if (word_len + word_start == i) {
+               bracket_count = 1;
+               bracket_start = i;
+           } else {
+                word_len = 0;
+                word_start = 0;
+           }
+
+       } else if(sample[i] == ')') {
+            if (bracket_count) {
+               --bracket_count;
+           }
+
+           if (!bracket_count && word_len) {
+               characterLocations.emplace_back(word_start, bracket_start, i);
+           }
+
+       } else if(!word_len && is_char_underscore(sample[i]) ) {
+           word_len = 1;
+           word_start = i;
+       } else if(word_len && is_num_char_underscore(sample[i]) ) {
+           word_len += 1;
+       } else if (!bracket_count){
+           word_len = 0;
+           word_start = 0;
+       }
+    }
+
+    return characterLocations;
+}
+
+void CLI::subsitute_variables(std::string& command)
 {
   // execute twice to catch all variables e.g. a*a -> (<complex>)*a ->
   // (<complex>)*(<complex>)
@@ -67,7 +115,7 @@ void CLI::subsitute_variables()
     const std::regex var_regex(
         R"(([\(\*\/\+\-]|^)([a-zA-Z_][\w]*)([\)\*\/\+\-]|$))");
     const auto var_begin =
-        std::sregex_iterator(tokens.begin(), tokens.end(), var_regex);
+        std::sregex_iterator(command.begin(), command.end(), var_regex);
     std::vector<std::pair<std::string, std::size_t>> matches;
 
     for (auto i = var_begin; i != std::sregex_iterator(); ++i) {
@@ -83,49 +131,39 @@ void CLI::subsitute_variables()
       }
 
       const std::string replacement = variable_mapping.at(match.first).str();
-      tokens.replace(match.second + pos_change, match.first.length(),
+      command.replace(match.second + pos_change, match.first.length(),
                      replacement);
       pos_change += replacement.length() - match.first.length();
     }
   }
 }
 
-std::vector<std::pair<std::string, std::string>> CLI::find_inner_method_calls()
+std::string CLI::evaluate_command_impl(std::string inner_tokens)
 {
-  const std::regex variable_regex(R"([a-zA-Z_][\w]*\([ij\.\d\+\*\-\+\(\)]*\))");
-  const auto call_begin =
-      std::sregex_iterator(tokens.begin(), tokens.end(), variable_regex);
-  std::vector<std::string> matches;
+  auto methods = find_top_level_function_calls(inner_tokens);
 
-  for (auto i = call_begin; i != std::sregex_iterator(); ++i) {
-    std::smatch match = *i;
-    std::string match_str = match.str();
-    matches.push_back(match_str);
-  }
+  for (auto method_iter = methods.rbegin(); method_iter != methods.rend(); ++method_iter ) {
+    const auto method = *method_iter;
+    std::size_t op_start  = method.op_start;
+    std::size_t op_len  = method.bracket_start-method.op_start;
+    std::size_t args_start  = method.bracket_start + 1;
+    std::size_t args_len  = method.bracket_end - method.bracket_start - 1;
 
-  std::vector<std::pair<std::string, std::string>> ops;
-  for (const auto& match : matches) {
-    const auto found = match.find("(");
-    const std::string op = match.substr(0, found);
-    std::size_t brackets = 1;
-    std::size_t bracket_end = found + 1;
-    for (; bracket_end < match.length() && brackets != 0; ++bracket_end) {
-      if (match[bracket_end] == ')') {
-        brackets -= 1;
-      }
-      else if (match[bracket_end] == '(') {
-        brackets += 1;
-      }
-    }
-    if (brackets != 0) {
-      throw std::invalid_argument("Calculation failed: mismatched parentheses");
+    std::string op = inner_tokens.substr(op_start, op_len);
+    std::string args = inner_tokens.substr(args_start, args_len);
+
+    std::string eval_args = evaluate_command_impl(args);
+    const auto result = call_func_by_name(op, eval_args);
+
+    if (result.index() == 0) {
+		  throw std::invalid_argument("SyntaxError: can't call with None Type");
     }
 
-    std::string calc = match.substr(found + 1, bracket_end - found - 2);
-    ops.emplace_back(op, calc);
+    const std::string replacement = std::get<1>(result).str();
+    inner_tokens.replace(op_start, op_len + args_len + 2, replacement);
   }
 
-  return ops;
+  return inner_tokens;
 }
 
 void CLI::read_new_command()
@@ -203,42 +241,149 @@ CLI::split_assignments(const std::string& assignment) const
   return output;
 }
 
-std::variant<std::monostate, Complex<double>>
-CLI::call_func_by_name(const std::string& func_name, const Complex<double> a)
+
+std::vector<std::string>
+CLI::split_args(const std::string& args) const
 {
-  if (func_name == "abs") return abs(a);
-  if (func_name == "arg") return arg(a);
-  if (func_name == "norm") return norm(a);
-  if (func_name == "conj") return conj(a);
-  if (func_name == "cos") return cos(a);
-  if (func_name == "cosh") return cosh(a);
-  if (func_name == "sin") return sin(a);
-  if (func_name == "sinh") return sinh(a);
-  if (func_name == "tan") return tan(a);
-  if (func_name == "tanh") return tanh(a);
-  if (func_name == "exp") return exp(a);
-  if (func_name == "log") return log(a);
-  if (func_name == "log10") return log10(a);
-  if (func_name == "sqrt") return sqrt(a);
-  if (func_name == "real") return real(a);
-  if (func_name == "imag") return imag(a);
+  std::vector<std::string> output;
+
+  auto first = args.data(), second = args.data(),
+       last = first + args.size();
+  for (; second != last && first != last; first = second + 1) {
+    second =
+        std::find_if(first, last, [](const char& ch) { return ch == ','; });
+
+    if (first != second) {
+      output.emplace_back(first, second - first);
+    }
+  }
+
+  return output;
+}
+
+void CLI::args_expect(const std::vector<std::string> & args, std::size_t min, std::size_t max) const {
+    if (args.size() < min) {
+      throw std::invalid_argument("TypeError: function expected '" + std::to_string(min) + "' arguments");
+    } else if (max != 0 && args.size() > max) {
+      throw std::invalid_argument("TypeError: function expected between '" + std::to_string(min) + "' and '" + std::to_string(max) + "' arguments");
+    } 
+}
+
+std::variant<std::monostate, Complex<double>>
+CLI::call_func_by_name(const std::string& func_name, std::string args)
+{
+  auto arg_list = split_args(args);
+
+  if (func_name == "pow") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 2);
+	  return pow(ComplexShuntingYard::evaluate(arg_list[0]), ComplexShuntingYard::evaluate(arg_list[1]));
+  }
+  if (func_name == "abs") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return abs(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "arg") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return arg(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "norm") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return norm(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "conj") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return conj(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "cos") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return cos(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "cosh") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return cosh(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "sin") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return sin(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "sinh") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return sinh(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "tan") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return tan(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "tanh") {
+	  subsitute_variables(args);
+	  return tanh(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "exp") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return exp(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "log") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return log(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "log10") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return log10(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "sqrt") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return sqrt(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "real") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return real(ComplexShuntingYard::evaluate(args));
+  }
+  if (func_name == "imag") {
+	  subsitute_variables(args);
+    args_expect(arg_list, 1);
+	  return imag(ComplexShuntingYard::evaluate(args));
+  }
   if (func_name == "help") {
-    print_help();
+    args_expect(arg_list, 0, 1);
+    print_help(arg_list);
     return {};
   }
   if (func_name == "credits") {
+    args_expect(arg_list, 0);
     print_credits();
     return {};
   }
   if (func_name == "euler_print") {
-    std::cout << a.to_exponential() << "\n";
+	  subsitute_variables(args);
+    args_expect(arg_list, 0);
+    std::cout << ComplexShuntingYard::evaluate(args).to_exponential() << "\n";
     return {};
   }
   if (func_name == "print" || func_name == "cartesian_print") {
-    std::cout << a << "\n";
+    args_expect(arg_list, 0);
+	  subsitute_variables(args);
+    std::cout << ComplexShuntingYard::evaluate(args) << "\n";
     return {};
   }
-  if (func_name == "quit" || func_name == "exit") exit(EXIT_SUCCESS);
+  if (func_name == "quit" || func_name == "exit") {
+    args_expect(arg_list, 0);
+    exit(EXIT_SUCCESS);
+  }
   throw std::invalid_argument("NameError: name '" + func_name +
                               "' is not defined");
 }
@@ -257,87 +402,73 @@ void CLI::print_credits()
             << "  Vetter Florian\n";
 }
 
-void CLI::print_help()
+
+void CLI::print_help(std::vector<std::string> args)
 {
-  std::cout << R"(Help:
-    Calculations:
-        Calculations can use the operators *, /, +, - and brackets to calculate complex numbers
-        For the complex numbers the cartesian form (<a>+<b>i), the euler form (<r>*e^i<phi>),
-        or a variable holding a complex number can be used. It is possible to use j instead of i for complex numbers
+  std::string object_name = (args.size() > 0) ? args[0] : "";
+  // lowercase args
+  std::transform(object_name.begin(), object_name.end(), object_name.begin(), [](char ch) {
+    return (ch >= 'A' && ch <= 'Z' ? ch + 32: ch);
+  });
 
-        Example:
-            >>> 1+1j
-            (1+1j)
-            >>> (1+1i) + (1 - 1i)
-            (2+0j)
-            >>> a = 1 + 1j
-            >>> (a - 1i) * 4 * (1 - 1i)
-            (4-4j)
+  static std::unordered_map<std::string, const char*> help_map({
+     { "calculations", calculations_docstring },
+     { "assignments", assignments_docstring },
+     { "real", real_docstring },
+     { "imag", imag_docstring },
+     { "abs", abs_docstring },
+     { "arg", arg_docstring },
+     { "norm", norm_docstring },
+     { "conj", conj_docstring },
+     { "cos", cos_docstring },
+     { "cosh", cosh_docstring },
+     { "exp", exp_docstring },
+     { "log", log_docstring },
+     { "log10", log10_docstring },
+     { "sin", sin_docstring },
+     { "sinh", sinh_docstring },
+     { "sqrt", sqrt_docstring },
+     { "tan", tan_docstring },
+     { "tanh", tanh_docstring },
+     { "pow", pow_docstring},
+     { "euler_print", euler_print_docstring },
+     { "print", print_docstring },
+     { "quit", quit_docstring },
+     { "help", help_docstring },
+     { "credits", credits_docstring }
+  });
 
-        Assignments:
-            It is possible to assign the results of calculations to variables
-            Operators (e.g. *) can not be used in variable names
-            It is possible to save a complex number into two variables in the form (a,b)
-            where the real part is stored in a and the imaginary part in b
-            Example:
-                >>> example_var1 = real, complex = 1+1j
-                >>> example_var1
-                (1+1j)
-                >>> real
-                (1+0j)
-                >>> complex
-                1j
+  if (help_map.find(object_name) != help_map.end()) {
+    std::cout << help_map[object_name];
 
-        Commands:
-            These commands can be used inside expressions
-
-            Example:
-                >>> real(2 + 1i) * abs(1+1i)
-                (2.828428+0.000000j)
-
-            real(<complex number>
-                Return real component of the complex number
-            imag(<complex number>
-                Return imaginary component of the complex number
-            abs(<complex number>
-                Return magnitude
-            arg(<complex number>
-                Return phase angle
-            norm(<complex number>
-                Return squared magnitude (field norm)
-            conj(<complex number>
-                Return Complex conjugate
-            cos(<complex number>
-                Return Complex cosine
-            cosh(<complex number>
-                Return Complex hyperbolic cosine
-            exp(<complex number>
-                Return Complex base e exponential
-            log(<complex number>
-                Return Complex natural logarithm
-            log10(<complex number>
-                Return Complex base 10 logarithm
-            sin(<complex number>
-                Return Complex sine
-            sinh(<complex number>
-                Return Complex hyperbolic sine
-            sqrt(<complex number>
-                Return Complex square root
-            tan(<complex number>
-                Return Complex tangent
-            tanh(<complex number>
-                Return Complex hyperbolic tangent
-
-        Global commands:
-            These commands can not be used inside expressions
-
-            euler_print(<complex number>)
-                print complex number in euler form
-            print(<complex number>)/cartesian_print(<complex number>)
-                print complex number in cartesian form
-            quit()/exit()
-                leave the application
-            help()
-                output this help text
-)";
+  } else {
+    //TODO: not indented correctly
+    std::cout
+      << calculations_docstring
+      << assignments_docstring
+      << "Commands:\n"
+      << real_docstring
+      << imag_docstring
+      << abs_docstring
+      << arg_docstring
+      << norm_docstring
+      << conj_docstring
+      << cos_docstring
+      << cosh_docstring
+      << exp_docstring
+      << log_docstring
+      << log10_docstring
+      << sin_docstring
+      << sinh_docstring
+      << sqrt_docstring
+      << tan_docstring
+      << tanh_docstring
+      << pow_docstring
+      << "\n"
+      << euler_print_docstring
+      << print_docstring
+      << quit_docstring
+      << help_docstring
+      << credits_docstring;
+  }  
 }

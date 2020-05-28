@@ -382,8 +382,8 @@ template <typename T> inline Complex<T> tanh(const Complex<T>& z)
 
 template <typename T> Complex<T> pow(const Complex<T>& z, const T& n)
 {
-  if (z == 0) {
-    return 0;
+  if (z == T()) {
+    return T();
   }
 
   if (z.imag() == 0 && z.real() > 0) {
@@ -397,11 +397,11 @@ template <typename T> Complex<T> pow(const Complex<T>& z, const T& n)
 template <typename T>
 inline Complex<T> pow(const Complex<T>& x, const Complex<T>& y)
 {
-  return x == 0 ? 0 : exp(y * log(x));
+  return x == T() ? T() : exp(y * log(x));
 }
 
 template <typename T> inline Complex<T> pow(const T& x, const Complex<T>& y)
 {
-  return x > 0 ? polar<T>(pow(x, y.real()), y.imag() * log(x))
+  return x > T() ? polar<T>(pow(x, y.real()), y.imag() * log(x))
                : pow(Complex<T>(x), y);
 }
