@@ -275,7 +275,9 @@ CLI::call_func_by_name(const std::string& func_name, std::string args)
   auto arg_list = split_args(args);
 
   if (func_name == "pow") {
-	  subsitute_variables(args);
+    for (auto& arg : arg_list) {
+      subsitute_variables(arg);
+    }
     args_expect(arg_list, 2);
 	  return pow(ComplexShuntingYard::evaluate(arg_list[0]), ComplexShuntingYard::evaluate(arg_list[1]));
   }

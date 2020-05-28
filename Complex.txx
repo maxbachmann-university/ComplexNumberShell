@@ -32,6 +32,9 @@ template <class T> Exponential<T> Complex<T>::to_exponential() const
 
 template <class T> std::string Complex<T>::str() const
 {
+  if (!std::isfinite(m_imag) || !std::isfinite(m_real)){
+    throw std::invalid_argument{"Result not finite"};
+  }
   const std::string str_imag = std::to_string(m_imag);
   if (m_real == 0) {
     return "(" + std::to_string(m_imag) + "j)";
