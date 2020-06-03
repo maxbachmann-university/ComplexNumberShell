@@ -4,28 +4,34 @@
 
 class LogFunc : public CliFunc {
 public:
-  LogFunc() : CliFunc(1, 1)
+  LogFunc() : CliFunc("log", 1, 1)
   {}
 
-  call_result call_impl(const arg_list& args) const override;
+  call_result call_impl(const arg_list& args) const override
+  {
+    return log(ComplexShuntingYard::evaluate(args[0]));
+  }
 
-  bool name_cmp(const std::string& name) const override;
-
-  std::string docstring() const override;
+  std::string docstring() const override
+  {
+    return "log(<complex number>)\n"
+           "    Return Complex natural logarithm";
+  }
 };
 
-inline CliFunc::call_result LogFunc::call_impl(const arg_list& args) const
-{
-  return log(ComplexShuntingYard::evaluate(args[0]));
-}
+class Log10Func : public CliFunc {
+public:
+  Log10Func() : CliFunc("log10", 1, 1)
+  {}
 
-inline bool LogFunc::name_cmp(const std::string& name) const
-{
-  return name == "log";
+  call_result call_impl(const arg_list& args) const override
+  {
+    return log10(ComplexShuntingYard::evaluate(args[0]));
+  }
+
+  std::string docstring() const override
+  {
+    return "log10(<complex number>)\n"
+           "    Return Complex base 10 logarithm";
+  }
 };
-
-inline std::string LogFunc::docstring() const
-{
-  return "log(<complex number>)\n"
-         "    Return Complex natural logarithm";
-}

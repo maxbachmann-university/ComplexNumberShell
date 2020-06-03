@@ -48,11 +48,6 @@ HelpFunc::call(arg_list args, const var_mapping&) const
   return {};
 }
 
-bool HelpFunc::name_cmp(const std::string& name) const
-{
-  return name == "help";
-}
-
 std::string HelpFunc::docstring() const
 {
   return "help()/help(<function name>)\n"

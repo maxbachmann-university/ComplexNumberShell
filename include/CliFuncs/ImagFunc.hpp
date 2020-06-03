@@ -4,28 +4,17 @@
 
 class ImagFunc : public CliFunc {
 public:
-  ImagFunc() : CliFunc(1, 1)
+  ImagFunc() : CliFunc("imag", 1, 1)
   {}
 
-  call_result call_impl(const arg_list& args) const override;
+  call_result call_impl(const arg_list& args) const override
+  {
+    return imag(ComplexShuntingYard::evaluate(args[0]));
+  }
 
-  bool name_cmp(const std::string& name) const override;
-
-  std::string docstring() const override;
+  std::string docstring() const override
+  {
+    return "imag(<complex number>)\n"
+           "    Return imaginary component of the complex number";
+  }
 };
-
-inline CliFunc::call_result ImagFunc::call_impl(const arg_list& args) const
-{
-  return imag(ComplexShuntingYard::evaluate(args[0]));
-}
-
-inline bool ImagFunc::name_cmp(const std::string& name) const
-{
-  return name == "imag";
-};
-
-inline std::string ImagFunc::docstring() const
-{
-  return "imag(<complex number>)\n"
-         "    Return imaginary component of the complex number";
-}

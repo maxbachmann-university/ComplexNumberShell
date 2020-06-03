@@ -3,30 +3,19 @@
 
 class QuitFunc : public CliFunc {
 public:
-  QuitFunc() : CliFunc()
+  QuitFunc() : CliFunc(std::vector<std::string>{"quit", "exit"})
   {}
 
-  call_result call_impl(const arg_list& args) const override;
+  call_result call_impl(const arg_list& args) const override
+  {
+    exit(EXIT_SUCCESS);
+    return {};
+  }
 
-  bool name_cmp(const std::string& name) const override;
-
-  std::string docstring() const override;
+  std::string docstring() const override
+  {
+    return "quit()/exit()\n"
+           "    leave the application\n"
+           "    can not be used inside expressions";
+  }
 };
-
-inline CliFunc::call_result QuitFunc::call_impl(const arg_list& args) const
-{
-  exit(EXIT_SUCCESS);
-  return {};
-}
-
-inline bool QuitFunc::name_cmp(const std::string& name) const
-{
-  return name == "quit" || name == "exit";
-};
-
-inline std::string QuitFunc::docstring() const
-{
-  return "quit()/exit()\n"
-         "    leave the application\n"
-         "    can not be used inside expressions";
-}

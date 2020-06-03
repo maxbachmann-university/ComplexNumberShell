@@ -4,28 +4,17 @@
 
 class RealFunc : public CliFunc {
 public:
-  RealFunc() : CliFunc(1, 1)
+  RealFunc() : CliFunc("real", 1, 1)
   {}
 
-  call_result call_impl(const arg_list& args) const override;
+  call_result call_impl(const arg_list& args) const override
+  {
+    return real(ComplexShuntingYard::evaluate(args[0]));
+  }
 
-  bool name_cmp(const std::string& name) const override;
-
-  std::string docstring() const override;
+  std::string docstring() const override
+  {
+    return "real(<complex number>)\n"
+           "    Return real component of the complex number";
+  }
 };
-
-inline CliFunc::call_result RealFunc::call_impl(const arg_list& args) const
-{
-  return real(ComplexShuntingYard::evaluate(args[0]));
-}
-
-inline bool RealFunc::name_cmp(const std::string& name) const
-{
-  return name == "real";
-};
-
-inline std::string RealFunc::docstring() const
-{
-  return "real(<complex number>)\n"
-         "    Return real component of the complex number";
-}

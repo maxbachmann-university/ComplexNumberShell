@@ -4,28 +4,17 @@
 
 class ArgFunc : public CliFunc {
 public:
-  ArgFunc() : CliFunc(1, 1)
+  ArgFunc() : CliFunc("arg", 1, 1)
   {}
 
-  call_result call_impl(const arg_list& args) const override;
+  call_result call_impl(const arg_list& args) const override
+  {
+    return arg(ComplexShuntingYard::evaluate(args[0]));
+  }
 
-  bool name_cmp(const std::string& name) const override;
-
-  std::string docstring() const override;
+  std::string docstring() const override
+  {
+    return "arg(<complex number>)\n"
+           "    Return phase angle";
+  }
 };
-
-inline CliFunc::call_result ArgFunc::call_impl(const arg_list& args) const
-{
-  return arg(ComplexShuntingYard::evaluate(args[0]));
-}
-
-inline bool ArgFunc::name_cmp(const std::string& name) const
-{
-  return name == "abs";
-};
-
-inline std::string ArgFunc::docstring() const
-{
-  return "arg(<complex number>)\n"
-         "    Return phase angle";
-}

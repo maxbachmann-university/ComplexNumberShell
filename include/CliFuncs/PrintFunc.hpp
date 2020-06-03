@@ -4,30 +4,40 @@
 
 class PrintFunc : public CliFunc {
 public:
-  PrintFunc() : CliFunc(1, 1)
+  PrintFunc()
+      : CliFunc(std::vector<std::string>{"print", "cartesian_print"}, 1, 1)
   {}
 
-  call_result call_impl(const arg_list& args) const override;
+  call_result call_impl(const arg_list& args) const override
+  {
+    std::cout << ComplexShuntingYard::evaluate(args[0]) << "\n";
+    return {};
+  }
 
-  bool name_cmp(const std::string& name) const override;
-
-  std::string docstring() const override;
+  std::string docstring() const override
+  {
+    return "print(<complex number>)/cartesian_print(<complex number>)\n"
+           "    print complex number in cartesian form\n"
+           "    can not be used inside expressions";
+  }
 };
 
-inline CliFunc::call_result PrintFunc::call_impl(const arg_list& args) const
-{
-  std::cout << ComplexShuntingYard::evaluate(args[0]) << "\n";
-  return {};
-}
+class EulerPrintFunc : public CliFunc {
+public:
+  EulerPrintFunc() : CliFunc("euler_print", 1, 1)
+  {}
 
-inline bool PrintFunc::name_cmp(const std::string& name) const
-{
-  return name == "print" || name == "cartesian_print";
+  call_result call_impl(const arg_list& args) const override
+  {
+    std::cout << ComplexShuntingYard::evaluate(args[0]).to_exponential()
+              << "\n";
+    return {};
+  }
+
+  std::string docstring() const override
+  {
+    return "euler_print(<complex number>)\n"
+           "    print complex number in euler form\n"
+           "    can not be used inside expressions";
+  }
 };
-
-inline std::string PrintFunc::docstring() const
-{
-  return "print(<complex number>)/cartesian_print(<complex number>)\n"
-         "    print complex number in cartesian form\n"
-         "    can not be used inside expressions";
-}

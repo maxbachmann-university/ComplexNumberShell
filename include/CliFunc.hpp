@@ -16,8 +16,12 @@ struct CliFunc {
   using var_mapping = std::unordered_map<std::string, Complex<double>>;
   using call_result = std::variant<std::monostate, Complex<double>>;
 
-  CliFunc(std::size_t arg_count_min = 0, std::size_t arg_count_max = 0)
-      : arg_count_min(arg_count_min), arg_count_max(arg_count_max)
+  explicit CliFunc(std::string command_name, std::size_t arg_count_min = 0, std::size_t arg_count_max = 0)
+      : command_names({command_name}), arg_count_min(arg_count_min), arg_count_max(arg_count_max)
+  {}
+
+  explicit CliFunc(std::vector<std::string> command_name, std::size_t arg_count_min = 0, std::size_t arg_count_max = 0)
+      : command_names(command_name), arg_count_min(arg_count_min), arg_count_max(arg_count_max)
   {}
 
   virtual call_result call(arg_list args,
@@ -25,7 +29,7 @@ struct CliFunc {
 
   virtual call_result call_impl(const arg_list& args) const;
 
-  virtual bool name_cmp(const std::string& name) const = 0;
+  bool name_cmp(const std::string& name) const;
 
   virtual std::string docstring() const = 0;
 
@@ -38,7 +42,14 @@ private:
 
   std::size_t arg_count_min;
   std::size_t arg_count_max;
+  std::vector<std::string> command_names;
 };
+
+inline bool CliFunc::name_cmp(const std::string& name) const
+{
+  return std::find(command_names.begin(), command_names.end(), name) != command_names.end();
+};
+
 
 inline void CliFunc::args_expect(const arg_list& args, std::size_t min,
                                  std::size_t max) const

@@ -10,14 +10,12 @@ class HelpFunc : public CliFunc {
 public:
   HelpFunc(std::vector<std::shared_ptr<CliFunc>> calc_commands,
            std::vector<std::shared_ptr<CliFunc>> global_commands)
-      : CliFunc(0, 1),
+      : CliFunc("help", 0, 1),
         calc_commands(calc_commands),
         global_commands(global_commands)
   {}
 
   call_result call(arg_list args, const var_mapping&) const override;
-
-  bool name_cmp(const std::string& name) const override;
 
   std::string docstring() const override;
 
