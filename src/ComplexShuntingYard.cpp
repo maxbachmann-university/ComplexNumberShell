@@ -11,7 +11,8 @@ int operator_precedence(const char op)
   return 0;
 }
 
-Complex<double> operation(const Complex<double> a, const Complex<double> b, const char op)
+Complex<double> operation(const Complex<double> a, const Complex<double> b,
+                          const char op)
 {
   if (op == '+') return a + b;
   if (op == '-') return a - b;
@@ -71,7 +72,8 @@ void replace_exponential(std::string& tokens)
     const double phi = std::stod(phi_str);
 
     const size_t start_pos = tokens.find(match);
-    const auto complex_replacement = Complex<double>::from_exponential({1, phi});
+    const auto complex_replacement =
+        Complex<double>::from_exponential({1, phi});
     tokens.replace(start_pos, match.length(), complex_replacement.str());
   }
 }

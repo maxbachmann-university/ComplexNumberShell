@@ -32,8 +32,8 @@ template <class T> Exponential<T> Complex<T>::to_exponential() const
 
 template <class T> std::string Complex<T>::str() const
 {
-  if (!std::isfinite(m_imag) || !std::isfinite(m_real)){
-    throw std::invalid_argument{"Result not finite"};
+  if (!std::isfinite(m_imag) || !std::isfinite(m_real)) {
+    throw std::invalid_argument{"Result is no finite number"};
   }
   const std::string str_imag = std::to_string(m_imag);
   if (m_real == 0) {
@@ -406,5 +406,5 @@ inline Complex<T> pow(const Complex<T>& x, const Complex<T>& y)
 template <typename T> inline Complex<T> pow(const T& x, const Complex<T>& y)
 {
   return x > T() ? polar<T>(pow(x, y.real()), y.imag() * log(x))
-               : pow(Complex<T>(x), y);
+                 : pow(Complex<T>(x), y);
 }

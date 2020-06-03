@@ -4,7 +4,7 @@
 ## Compile
 
 ```bash
-g++ main.cpp ComplexShuntingYard.cpp CLI.cpp -o ComplexNumberShell -std=c++17
+g++ main.cpp src/ComplexShuntingYard.cpp src/CLI.cpp src/widthstream.cpp src/CliFunctions/HelpFunc.cpp  -o ComplexNumberShell -std=c++17 -I include
 ./ComplexNumberShell
 ```
 
