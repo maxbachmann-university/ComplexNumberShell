@@ -6,10 +6,10 @@
 
 #include "Complex.hpp"
 #include "Utils.hpp"
+#include "types.hpp"
 #include <unordered_map>
 
 namespace CliParser {
-using var_mapping = std::unordered_map<std::string, Complex<double>>;
 
 namespace details {
 static std::regex
