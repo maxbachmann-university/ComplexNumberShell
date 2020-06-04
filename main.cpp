@@ -2,6 +2,9 @@
 #include <exception>
 #include <iostream>
 
+/**
+ * Main function to start a loop for interaction with the user.
+ */
 int main()
 {
   CLI cli;

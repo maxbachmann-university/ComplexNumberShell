@@ -1,12 +1,12 @@
 #include "Complex.hpp"
 
-template <class T>
+template <typename T>
 Complex<T> Complex<T>::from_exponential(const Exponential<T>& z_exp)
 {
   return {z_exp.r * std::cos(z_exp.phi), z_exp.r * std::sin(z_exp.phi)};
 }
 
-template <class T> Exponential<T> Complex<T>::to_exponential() const
+template <typename T> Exponential<T> Complex<T>::to_exponential() const
 {
   Exponential<T> z_exp(abs(*this), 0);
 
@@ -30,7 +30,7 @@ template <class T> Exponential<T> Complex<T>::to_exponential() const
   return z_exp;
 }
 
-template <class T> std::string Complex<T>::str() const
+template <typename T> std::string Complex<T>::str() const
 {
   if (!std::isfinite(m_imag) || !std::isfinite(m_real)) {
     throw std::invalid_argument{"Result is no finite number"};
@@ -255,7 +255,7 @@ inline constexpr bool operator!=(const T& lhs, const Complex<T>& rhs)
   return !(lhs == rhs);
 }
 
-template <typename T, typename CharT, class Traits>
+template <typename T, typename CharT, typename Traits>
 std::basic_ostream<CharT, Traits>&
 operator<<(std::basic_ostream<CharT, Traits>& os, const Complex<T>& z)
 {
