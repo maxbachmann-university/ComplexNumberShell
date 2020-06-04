@@ -10,20 +10,20 @@ call_result HelpFunc::call(arg_list args, const var_mapping&) const
     object_name = lowercase(args[0]);
 
     if (object_name == "help") {
-      out.indent(4) << docstring();
+      out.indent(4) << *this;
       return {};
     }
 
     for (const auto& command : calc_commands) {
       if (command->name_cmp(object_name)) {
-        out.indent(4) << command->docstring();
+        out.indent(4) << *command;
         return {};
       }
     }
 
     for (const auto& command : global_commands) {
       if (command->name_cmp(object_name)) {
-        out.indent(4) << command->docstring();
+        out.indent(4) << *command;
         return {};
       }
     }
@@ -34,15 +34,15 @@ call_result HelpFunc::call(arg_list args, const var_mapping&) const
 
   out.indent(4);
   for (const auto& command : calc_commands) {
-    out << command->docstring() << "\n";
+    out << *command << "\n";
   }
 
   out << "\n";
 
   for (const auto& command : global_commands) {
-    out << command->docstring() << "\n";
+    out << *command << "\n";
   }
-  out << docstring();
+  out << *this;
 
   return {};
 }
