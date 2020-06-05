@@ -232,15 +232,8 @@ std::basic_ostream<CharT, Traits>&
 operator<<(std::basic_ostream<CharT, Traits>& os, const Complex<T>& z);
 
 
-
-
-
-
-
-
-
 /**
- * Struct for calculation with cartesian complex numbers.
+ * @brief Struct for calculation with cartesian complex numbers.
  */
 template <typename T> struct Complex {
   constexpr Complex(const T& real = T(), const T& imag = T())

@@ -4,7 +4,7 @@
 #include <string>
 
 /**
- * Struct for calculation with exponential complex numbers.
+ * @brief Struct for calculation with exponential complex numbers.
  */
 template <typename T> struct Exponential {
   T r;
