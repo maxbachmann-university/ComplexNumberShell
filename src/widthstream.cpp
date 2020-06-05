@@ -14,21 +14,24 @@ void widthbuf::set_indent(int w)
   }
 }
 
-// This is basically a line-buffering stream buffer.
-// The algorithm is:
-// - Explicit end of line ("\r" or "\n"): we flush our buffer
-//   to the underlying stream's buffer, and set our record of
-//   the line length to 0.
-// - An "alert" character: sent to the underlying stream
-//   without recording its length, since it doesn't normally
-//   affect the a appearance of the output.
-// - tab: treated as moving to the next tab stop, which is
-//   assumed as happening every tab_width characters.
-// - Everything else: really basic buffering with word wrapping.
-//   We try to add the character to the buffer, and if it exceeds
-//   our line width, we search for the last space/tab in the
-//   buffer and break the line there. If there is no space/tab,
-//   we break the line at the limit.
+/**
+ * This is basically a line-buffering stream buffer.
+ * The algorithm is:
+ * - Explicit end of line ("\r" or "\n"): we flush our buffer
+ *   to the underlying stream's buffer, and set our record of
+ *   the line length to 0.
+ * - An "alert" character: sent to the underlying stream
+ *   without recording its length, since it doesn't normally
+ *   affect the a appearance of the output.
+ * - tab: treated as moving to the next tab stop, which is
+ *   assumed as happening every tab_width characters.
+ * - Everything else: really basic buffering with word wrapping.
+ *   We try to add the character to the buffer, and if it exceeds
+ *   our line width, we search for the last space/tab in the
+ *   buffer and break the line there. If there is no space/tab,
+ *   we break the line at the limit.
+ * <a href="https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter">[Stackexchange]</a>
+ */
 widthbuf::int_type widthbuf::overflow(int_type c)
 {
   if (traits_type::eq_int_type(traits_type::eof(), c))
