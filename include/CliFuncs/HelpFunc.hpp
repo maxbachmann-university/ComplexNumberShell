@@ -1,7 +1,7 @@
 #pragma once
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
-#include "widthstream.hpp"
+#include "widthstream/widthstream.hpp"
 #include <memory>
 #include <string>
 #include <vector>

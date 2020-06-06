@@ -2,7 +2,6 @@
 #include "CliParser.hpp"
 #include "Complex.hpp"
 #include "types.hpp"
-#include "widthstream.hpp"
 
 #include <exception>
 #include <ostream>

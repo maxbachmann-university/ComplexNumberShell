@@ -3,9 +3,6 @@
 #include <iostream>
 #include <streambuf>
 
-// taken from
-// https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter
-
 /**
  * @brief Manage indentation of outputstream.
  *

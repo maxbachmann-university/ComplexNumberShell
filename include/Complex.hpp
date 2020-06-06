@@ -145,136 +145,134 @@ template <typename T>
 Complex<T> tanh(const Complex<T>&);
 
 /**
- * Overload "+" operator for using with complex numbers.
+ * Add up two complex numbers
  */
 template <typename T>
 Complex<T> operator+(const Complex<T>& lhs, const Complex<T>& rhs);
 
 /**
- * Overload "+" operator for using with complex numbers.
+ * Add up two a complex number and a scalar
  */
 template <typename T>
 Complex<T> operator+(const Complex<T>& lhs, const T& rhs);
 
 /**
- * Overload "+" operator for using with complex numbers.
+ * Add uo a scalar and a complex number
  */
 template <typename T>
 Complex<T> operator+(const T& lhs, const Complex<T>& rhs);
 
 /**
- * Overload "+" operator for using with complex numbers.
+ * set positive sign of complex number
  */
 template <typename T>
 inline Complex<T> operator+(const Complex<T>& rhs);
 
 /**
- * Overload "-" operator for using with complex numbers.
+ * Subtract a complex number from a complex number
  */
 template <typename T>
 Complex<T> operator-(const Complex<T>& lhs, const Complex<T>& rhs);
 
 /**
- * Overload "-" operator for using with complex numbers.
+ * Subtract a scalar from a complex number
  */
 template <typename T>
 Complex<T> operator-(const Complex<T>& lhs, const T& rhs);
 
 /**
- * Overload "-" operator for using with complex numbers.
+ * Subtract a complex number from a scalar
  */
 template <typename T>
 Complex<T> operator-(const T& lhs, const Complex<T>& rhs);
 
 /**
- * Overload "-" operator for using with complex numbers.
+ * Set negative sign of complex number
  */
 template <typename T>
 Complex<T> operator-(const Complex<T>& rhs);
 
 /**
- * Overload "*" operator for using with complex numbers.
+ * Multiply two complex numbers
  */
 template <typename T>
 Complex<T> operator*(const Complex<T>& lhs, const Complex<T>& rhs);
 
 /**
- * Overload "*" operator for using with complex numbers.
+ * Multiply a complex number wit a scalar
  */
 template <typename T>
 Complex<T> operator*(const Complex<T>& lhs, const T& rhs);
 
 /**
- * Overload "*" operator for using with complex numbers.
+ * Multiply a scalar with a complex number
  */
 template <typename T>
 Complex<T> operator*(const T& lhs, const Complex<T>& rhs);
 
 /**
- * Overload "/" operator for using with complex numbers.
+ * Divide a complex number by a complex number
  */
 template <typename T>
 Complex<T> operator/(const Complex<T>& lhs, const Complex<T>& rhs);
 
 /**
- * Overload "/" operator for using with complex numbers.
+ * Divide a complex number by a scalar
  */
 template <typename T>
 Complex<T> operator/(const Complex<T>& lhs, const T& rhs);
 
 /**
- * Overload "/" operator for using with complex numbers.
+ * Divide a scalar by a complex number
  */
 template <typename T>
 Complex<T> operator/(const T& lhs, const Complex<T>& rhs);
 
 /**
- * Overload "==" operator for using with complex numbers.
+ * Check if two complex numbers are equal
  */
 template <typename T>
 constexpr bool operator==(const Complex<T>& lhs, const Complex<T>& rhs);
 
 /**
- * Overload "==" operator for using with complex numbers.
+ * Check if a complex number and a scalar are equal
  */
 template <typename T>
 constexpr bool operator==(const Complex<T>& lhs, const T& rhs);
 
 /**
- * Overload "==" operator for using with complex numbers.
+ * Check if a scalar and a complex number are equal
  */
 template <typename T>
 constexpr bool operator==(const T& lhs, const Complex<T>& rhs);
 
 /**
- * Overload "!=" operator for using with complex numbers.
+ * Check if two complex numbers are not equal
  */
 template <typename T>
 constexpr bool operator!=(const Complex<T>& lhs, const Complex<T>& rhs);
 
 /**
- * Overload "!=" operator for using with complex numbers.
+ * Check if a complex number and a scalar are not equal
  */
 template <typename T>
 constexpr bool operator!=(const Complex<T>& lhs, const T& rhs);
 
 /**
- * Overload "!=" operator for using with complex numbers.
+ * Check if a scalar and a complex number are not equal
  */
 template <typename T>
 constexpr bool operator!=(const T& lhs, const Complex<T>& rhs);
 
 /**
- * Overloading "<<" operator.
- *
- * Adds an cartesian complex number to an output stream.
+ * Add the cartesian form of a complex number to an output stream
  */
 template <typename T, typename CharT, typename Traits>
 std::basic_ostream<CharT, Traits>&
 operator<<(std::basic_ostream<CharT, Traits>& os, const Complex<T>& z);
 
 /**
- * @brief Struct for calculation with cartesian complex numbers.
+ * @brief Datastructure holding a complex numbers in cartesian form
  */
 template <typename T>
 struct Complex {
@@ -290,12 +288,12 @@ struct Complex {
   {}
 
   /**
-   * Overload "=" operator for using with complex numbers.
+   * Assign a scalar
    */
   Complex<T>& operator=(const T&);
 
   /**
-   * Overload "=" operator for using with complex numbers.
+   * Assign a complex number
    */
   Complex& operator=(const Complex&) = default;
 
@@ -332,45 +330,45 @@ struct Complex {
   }
 
   /**
-   * Overload "+=" operator for using with complex numbers.
+   * Add a scalar
    */
   Complex<T>& operator+=(const T&);
 
   /**
-   * Overload "+=" operator for using with complex numbers.
+   * Add a complex number
    */
   template <typename U>
   Complex<T>& operator+=(const Complex<U>&);
 
   /**
-   * Overload "-=" operator for using with complex numbers.
+   * Subtract scalar
    */
   Complex<T>& operator-=(const T&);
 
   /**
-   * Overload "-=" operator for using with complex numbers.
+   * Subtract complex number
    */
   template <typename U>
   Complex<T>& operator-=(const Complex<U>&);
 
   /**
-   * Overload "*=" operator for using with complex numbers.
+   * Multiply with scalar
    */
   Complex<T>& operator*=(const T&);
 
   /**
-   * Overload "*=" operator for using with complex numbers.
+   * Multiply with complex number
    */
   template <typename U>
   Complex<T>& operator*=(const Complex<U>&);
 
   /**
-   * Overload "/=" operator for using with complex numbers.
+   * Divide by scalar
    */
   Complex<T>& operator/=(const T&);
 
   /**
-   * Overload "/=" operator for using with complex numbers.
+   * Divide by complex number
    */
   template <typename U>
   Complex<T>& operator/=(const Complex<U>&);

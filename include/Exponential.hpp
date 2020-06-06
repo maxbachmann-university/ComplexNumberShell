@@ -4,7 +4,7 @@
 #include <string>
 
 /**
- * @brief Struct for calculation with exponential complex numbers.
+ * @brief Datastructure holding a complex numbers in euler form
  */
 template <typename T>
 struct Exponential {
@@ -31,9 +31,7 @@ std::string Exponential<T>::str() const
 }
 
 /**
- * Overloading "<<" operator.
- *
- * Adds an exponential complex number to an output stream.
+ * Add the euler form of a complex number to an output stream
  */
 template <typename T, typename CharT, typename Traits>
 std::basic_ostream<CharT, Traits>&
