@@ -11,8 +11,8 @@ class CLI {
 public:
   CLI();
 
-  void evaluate_command();
-  void read_new_command();
+  call_result evaluate_command();
+  std::string read_new_command();
 
 private:
   std::string current_command;

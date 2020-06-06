@@ -11,10 +11,10 @@ CLI::CLI()
             << "type \"help()\", \"credits()\" for more information.\n";
 }
 
-void CLI::evaluate_command()
+call_result CLI::evaluate_command()
 {
   if (current_command.empty()) {
-    return;
+    return {};
   }
   auto assignment = CliParser::split_assignments(current_command);
   auto assignments = assignment.assignments;
@@ -44,7 +44,7 @@ void CLI::evaluate_command()
       if (!assignments.empty()) {
         throw std::invalid_argument("SyntaxError: can't assign None Type");
       }
-      return;
+      return {};
     }
 
     const std::string replacement = std::get<1>(result).str();
@@ -52,7 +52,9 @@ void CLI::evaluate_command()
   }
 
   CliParser::subsitute_variables(tokens, variable_mapping);
-  assign_result(assignments, ComplexShuntingYard::evaluate(tokens));
+  auto result = ComplexShuntingYard::evaluate(tokens);
+  assign_result(assignments, result);
+  return result;
 }
 
 std::string CLI::evaluate_command_impl(std::string tokens)
@@ -85,11 +87,12 @@ std::string CLI::evaluate_command_impl(std::string tokens)
   return tokens;
 }
 
-void CLI::read_new_command()
+std::string CLI::read_new_command()
 {
   std::cout << ">>> ";
   std::getline(std::cin, current_command);
   current_command = strip(current_command);
+  return current_command;
 }
 
 void CLI::assign_result(const std::vector<std::string>& assignments,
@@ -130,7 +133,8 @@ void CLI::assign_result(const std::vector<std::string>& assignments,
   }
 }
 
-call_result CLI::call_func_by_name(const std::string& func_name, std::string args)
+call_result CLI::call_func_by_name(const std::string& func_name,
+                                   std::string args)
 {
   auto arg_list = CliParser::split_args(args);
 

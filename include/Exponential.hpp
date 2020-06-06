@@ -3,7 +3,8 @@
 #include <ostream>
 #include <string>
 
-template <typename T> struct Exponential {
+template <typename T>
+struct Exponential {
   T r;
   T phi;
   Exponential(T r, T phi) : r(r), phi(phi)
@@ -11,7 +12,8 @@ template <typename T> struct Exponential {
   std::string str() const;
 };
 
-template <class T> std::string Exponential<T>::str() const
+template <class T>
+std::string Exponential<T>::str() const
 {
   if (r == 0) {
     return "0";
