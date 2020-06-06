@@ -9,7 +9,8 @@
 #include <ostream>
 
 // Forward declarations.
-template <typename T> struct Complex;
+template <typename T>
+struct Complex;
 
 /**
  * Return real part.
@@ -236,6 +237,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, const Complex<T>& z);
  * @brief Struct for calculation with cartesian complex numbers.
  */
 template <typename T> struct Complex {
+
   constexpr Complex(const T& real = T(), const T& imag = T())
       : m_real(real), m_imag(imag)
   {}

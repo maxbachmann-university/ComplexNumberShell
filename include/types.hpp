@@ -1,10 +1,10 @@
 #pragma once
 
+#include "Complex.hpp"
 #include <string>
-#include <vector>
 #include <unordered_map>
 #include <variant>
-#include "Complex.hpp"
+#include <vector>
 
 using arg_list = std::vector<std::string>;
 using var_mapping = std::unordered_map<std::string, Complex<double>>;

@@ -21,12 +21,12 @@ public:
   /**
    * @brief Processing user's input.
    */
-  void evaluate_command();
+  call_result evaluate_command();
 
   /**
    * @brief Reading in the user's input.
    */
-  void read_new_command();
+  std::string read_new_command();
 
 private:
   std::string current_command;
