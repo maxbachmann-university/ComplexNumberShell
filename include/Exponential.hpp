@@ -6,7 +6,8 @@
 /**
  * @brief Struct for calculation with exponential complex numbers.
  */
-template <typename T> struct Exponential {
+template <typename T>
+struct Exponential {
   T r;
   T phi;
   Exponential(T r, T phi) : r(r), phi(phi)
@@ -17,7 +18,8 @@ template <typename T> struct Exponential {
 /**
  * Get string representation of exponential complex number.
  */
-template <typename T> std::string Exponential<T>::str() const
+template <typename T>
+std::string Exponential<T>::str() const
 {
   if (r == 0) {
     return "0";
@@ -30,7 +32,7 @@ template <typename T> std::string Exponential<T>::str() const
 
 /**
  * Overloading "<<" operator.
- * 
+ *
  * Adds an exponential complex number to an output stream.
  */
 template <typename T, typename CharT, typename Traits>

@@ -11,7 +11,7 @@
  * \brief Interaction with user and processing input.
  *
  * This class interacts with the user.
- * It is capable of parsing the user's input and 
+ * It is capable of parsing the user's input and
  *
  */
 class CLI {
