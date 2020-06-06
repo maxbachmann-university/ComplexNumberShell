@@ -1,8 +1,8 @@
 #pragma once
 #include "CliParser.hpp"
 #include "Complex.hpp"
-#include "widthstream.hpp"
 #include "types.hpp"
+#include "widthstream.hpp"
 
 #include <exception>
 #include <ostream>

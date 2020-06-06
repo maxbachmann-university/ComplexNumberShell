@@ -4,7 +4,7 @@
 ## Compile
 
 ```bash
-g++ main.cpp src/ComplexShuntingYard.cpp src/CLI.cpp src/widthstream.cpp src/CliFuncs/HelpFunc.cpp src/CliParser.cpp src/Utils.cpp src/CliFunc.cpp -o ComplexNumberShell -std=c++17 -I include
+g++ main.cpp src/ComplexShuntingYard.cpp src/CLI.cpp src/widthstream.cpp src/CliFuncs/HelpFunc.cpp src/CliParser.cpp src/Utils.cpp src/CliFunc.cpp src/XmlCommandLogger.cpp extern/tinyxml2/tinyxml2.cpp -o ComplexNumberShell -std=c++17 -I include -I extern
 ./ComplexNumberShell
 ```
 
