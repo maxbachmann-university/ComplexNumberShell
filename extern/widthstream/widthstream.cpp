@@ -30,7 +30,8 @@ void widthbuf::set_indent(int w)
  *   our line width, we search for the last space/tab in the
  *   buffer and break the line there. If there is no space/tab,
  *   we break the line at the limit.
- * <a href="https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter">[Stackexchange]</a>
+ * <a
+ * href="https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter">[Stackexchange]</a>
  */
 widthbuf::int_type widthbuf::overflow(int_type c)
 {

@@ -1,4 +1,4 @@
-cpp_files = src/ComplexShuntingYard.cpp src/CLI.cpp src/widthstream.cpp src/CliFuncs/HelpFunc.cpp src/CliParser.cpp src/Utils.cpp src/CliFunc.cpp src/XmlCommandLogger.cpp extern/tinyxml2/tinyxml2.cpp
+cpp_files = src/ComplexShuntingYard.cpp src/CLI.cpp src/CliFuncs/HelpFunc.cpp src/CliParser.cpp src/Utils.cpp src/CliFunc.cpp src/XmlCommandLogger.cpp extern/tinyxml2/tinyxml2.cpp extern/widthstream/widthstream.cpp
 include_dirs = -I include -I extern
 
 compile:

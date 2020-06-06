@@ -3,13 +3,12 @@
 #include <iostream>
 #include <streambuf>
 
-// taken from
-// https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter
-
 /**
  * @brief Manage indentation of outputstream.
- * 
- * <a href="https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter">Stackexchange Reference</a>
+ *
+ * <a
+ * href="https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter">Stackexchange
+ * Reference</a>
  */
 class widthbuf : public std::streambuf {
 public:
@@ -41,8 +40,10 @@ private:
 
 /**
  * @brief Manage indentation of outputstream.
- * 
- * <a href="https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter">Stackexchange Reference</a>
+ *
+ * <a
+ * href="https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter">Stackexchange
+ * Reference</a>
  */
 class widthstream : public std::ostream {
   widthbuf buf;
