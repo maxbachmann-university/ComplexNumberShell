@@ -13,6 +13,10 @@ XmlCommandLogger::XmlCommandLogger()
   xmlDoc.SaveFile(filename.data());
 }
 
+/**
+ * Logging all commands and their result.
+ * This includes results in cartesian and euler form.
+ */
 void XmlCommandLogger::logCommand(std::string command, call_result result)
 {
   tinyxml2::XMLElement* commandItem = xmlDoc.NewElement("Command");
