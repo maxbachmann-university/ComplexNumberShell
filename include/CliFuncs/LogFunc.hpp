@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
 
+/**
+ * @brief Return Complex natural logarithm.
+ */
 class LogFunc : public CliFunc {
 public:
   LogFunc() : CliFunc("log", 1, 1)
@@ -19,6 +22,9 @@ public:
   }
 };
 
+/**
+ * @brief Return Complex base 10 logarithm.
+ */
 class Log10Func : public CliFunc {
 public:
   Log10Func() : CliFunc("log10", 1, 1)

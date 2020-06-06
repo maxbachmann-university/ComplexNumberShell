@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
 
+/**
+ * @brief Return squared magnitude (field norm).
+ */
 class NormFunc : public CliFunc {
 public:
   NormFunc() : CliFunc("norm", 1, 1)

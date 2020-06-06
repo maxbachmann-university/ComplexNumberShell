@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include <iostream>
 
+/**
+ * @brief Output credits.
+ */
 class CreditsFunc : public CliFunc {
 public:
   CreditsFunc() : CliFunc("credits")

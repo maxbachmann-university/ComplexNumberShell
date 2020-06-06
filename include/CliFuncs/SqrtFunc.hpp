@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
 
+/**
+ * @brief Return Complex square root.
+ */
 class SqrtFunc : public CliFunc {
 public:
   SqrtFunc() : CliFunc("sqrt", 1, 1)

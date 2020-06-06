@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
 
+/**
+ * @brief Return Complex conjugate.
+ */
 class ConjFunc : public CliFunc {
 public:
   ConjFunc() : CliFunc("conj", 1, 1)

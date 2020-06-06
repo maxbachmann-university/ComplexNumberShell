@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
 
+/**
+ * @brief Return real component of the complex number.
+ */
 class RealFunc : public CliFunc {
 public:
   RealFunc() : CliFunc("real", 1, 1)

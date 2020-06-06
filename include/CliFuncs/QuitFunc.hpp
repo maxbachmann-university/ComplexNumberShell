@@ -1,6 +1,9 @@
 #pragma once
 #include "CliFunc.hpp"
 
+/**
+ * @brief Leave the application.
+ */
 class QuitFunc : public CliFunc {
 public:
   QuitFunc() : CliFunc(std::vector<std::string>{"quit", "exit"})
