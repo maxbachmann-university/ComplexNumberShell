@@ -7,11 +7,25 @@
 #include <memory>
 #include <vector>
 
+/**
+ * \brief Interaction with user and processing input.
+ *
+ * This class interacts with the user.
+ * It is capable of parsing the user's input and 
+ *
+ */
 class CLI {
 public:
   CLI();
 
+  /**
+   * @brief Processing user's input.
+   */
   call_result evaluate_command();
+
+  /**
+   * @brief Reading in the user's input.
+   */
   std::string read_new_command();
 
 private:
@@ -34,12 +48,21 @@ private:
 
   HelpFunc help_command = HelpFunc(calc_commands, global_commands);
 
+  /**
+   * @brief Processing user's input recursive.
+   */
   std::string evaluate_command_impl(std::string);
 
   var_mapping variable_mapping;
 
+  /**
+   * @brief Parsing method and return executed result.
+   */
   call_result call_func_by_name(const std::string& func_name, std::string);
 
+  /**
+   * @brief Output of calculated result.
+   */
   void assign_result(const std::vector<std::string>& assignments,
                      const Complex<double> result);
 };

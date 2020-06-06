@@ -11,6 +11,14 @@ CLI::CLI()
             << "type \"help()\", \"credits()\" for more information.\n";
 }
 
+/**
+ * This function evaluates the commands on the top level of input.
+ * It starts with the outmost command and goes in recursive to the innermost command.
+ * For example for this command: sin(cos())
+ * It starts with sin() and goes rekursive in to the cos function.
+ * Therefore it starts on the outmost command and calls evaluate_command_impl for recursive part to the innermost command.
+ * Afterwards it calculates step by step back and outputs the result.
+ */
 call_result CLI::evaluate_command()
 {
   if (current_command.empty()) {
@@ -57,6 +65,14 @@ call_result CLI::evaluate_command()
   return result;
 }
 
+/**
+ * This function evaluates the commands in the input until the innermost command is reached.
+ * It starts with the outmost command and goes in recursive to the innermost command.
+ * For example for this command: sin(cos())
+ * It starts with sin() and goes rekursive in to the cos function.
+ * Therefore it starts on the outmost command and calls evaluate_command_impl for recursive part to the innermost command.
+ * Afterwards it calculates step by step back and outputs the result.
+ */
 std::string CLI::evaluate_command_impl(std::string tokens)
 {
   auto methods = CliParser::find_top_level_function_calls(tokens);
@@ -87,6 +103,10 @@ std::string CLI::evaluate_command_impl(std::string tokens)
   return tokens;
 }
 
+/**
+ * This function reads in the the user's input with std::getline().
+ * Afterwards it removes all spaces and saves the input string. 
+ */
 std::string CLI::read_new_command()
 {
   std::cout << ">>> ";
@@ -95,6 +115,10 @@ std::string CLI::read_new_command()
   return current_command;
 }
 
+/**
+ * This function prepares the calculated result for the output.
+ * It also checks beforehand the result for right resolving.
+ */
 void CLI::assign_result(const std::vector<std::string>& assignments,
                         const Complex<double> result)
 {
@@ -133,8 +157,11 @@ void CLI::assign_result(const std::vector<std::string>& assignments,
   }
 }
 
-call_result CLI::call_func_by_name(const std::string& func_name,
-                                   std::string args)
+/**
+ * This function parses methods in the input and executes them.
+ * The result will be returned.
+ */
+call_result CLI::call_func_by_name(const std::string& func_name, std::string args)
 {
   auto arg_list = CliParser::split_args(args);
 

@@ -6,8 +6,16 @@
 // taken from
 // https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter
 
+/**
+ * @brief Manage indentation of outputstream.
+ * 
+ * <a href="https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter">Stackexchange Reference</a>
+ */
 class widthbuf : public std::streambuf {
 public:
+  /**
+   * @brief Line-buffering stream buffer.
+   */
   widthbuf(int w, std::streambuf* s)
       : indent_width(0), def_width(w), width(w), sbuf(s), count(0)
   {}
@@ -31,6 +39,11 @@ private:
   string buffer;
 };
 
+/**
+ * @brief Manage indentation of outputstream.
+ * 
+ * <a href="https://codereview.stackexchange.com/questions/104428/stream-manipulating-indenter">Stackexchange Reference</a>
+ */
 class widthstream : public std::ostream {
   widthbuf buf;
 

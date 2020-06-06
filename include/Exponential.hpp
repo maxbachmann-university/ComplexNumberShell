@@ -3,8 +3,10 @@
 #include <ostream>
 #include <string>
 
-template <typename T>
-struct Exponential {
+/**
+ * @brief Struct for calculation with exponential complex numbers.
+ */
+template <typename T> struct Exponential {
   T r;
   T phi;
   Exponential(T r, T phi) : r(r), phi(phi)
@@ -12,8 +14,10 @@ struct Exponential {
   std::string str() const;
 };
 
-template <class T>
-std::string Exponential<T>::str() const
+/**
+ * Get string representation of exponential complex number.
+ */
+template <typename T> std::string Exponential<T>::str() const
 {
   if (r == 0) {
     return "0";
@@ -24,7 +28,12 @@ std::string Exponential<T>::str() const
   return std::to_string(r) + "*e^j" + std::to_string(phi);
 }
 
-template <typename T, typename CharT, class Traits>
+/**
+ * Overloading "<<" operator.
+ * 
+ * Adds an exponential complex number to an output stream.
+ */
+template <typename T, typename CharT, typename Traits>
 std::basic_ostream<CharT, Traits>&
 operator<<(std::basic_ostream<CharT, Traits>& os, const Exponential<T>& exp_z)
 {
