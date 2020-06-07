@@ -14,7 +14,7 @@ public:
   XmlCommandLogger();
 
   /**
-   * @brief Logging command.
+   * @brief Log a command with the result
    */
   void logCommand(std::string command, call_result result);
 
