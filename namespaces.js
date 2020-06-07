@@ -1,6 +1,5 @@
 var namespaces =
 [
-    [ "Class Diagram", "dc/d6a/autotoc_md3.html#autotoc_md4", null ],
     [ "Catch", "d4/d13/namespace_catch.html", "d4/d13/namespace_catch" ],
     [ "CliParser", "db/dc2/namespace_cli_parser.html", "db/dc2/namespace_cli_parser" ],
     [ "ComplexShuntingYard", "d5/da7/namespace_complex_shunting_yard.html", null ],

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Complex Number Shell: Doxygen dark theme</title>
+<title>Complex Number Shell: Code Overview</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -20,6 +20,8 @@
 <script type="text/javascript" src="../../search/searchdata.js"></script>
 <script type="text/javascript" src="../../search/search.js"></script>
 <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom_dark_theme.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -80,16 +82,15 @@ $(document).ready(function(){initNavTree('d9/da4/autotoc_md0.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Doxygen dark theme </div>  </div>
+<div class="title">Code Overview </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Theme implements dark colors implementation for doxygen documentation generator. Selected colors are inspiration from Sublime Text syntax highligher for C language.</p>
-<p>Demo of the dark theme is available at <a href="https://majerle.eu/documentation/esp_at/html/index.html">https://majerle.eu/documentation/esp_at/html/index.html</a></p>
-<h1><a class="anchor" id="autotoc_md2"></a>
-How to use it</h1>
-<p>Usage is very simple. You just need to modify your doxygen input file</p>
-<div class="fragment"><div class="line"># Add files to extra stylesheet</div><div class="line"></div><div class="line">HTML_EXTRA_STYLESHEET  = &quot;custom.css&quot; \</div><div class="line">                         &quot;custom_dark_theme.css&quot;</div></div><!-- fragment --><p>If you wish to use custom made HTML header and footer, enable this feature with</p>
-<div class="fragment"><div class="line"># Custom header</div><div class="line">HTML_HEADER            = &quot;html_header.html&quot;</div><div class="line"></div><div class="line"># Custom footer</div><div class="line">HTML_FOOTER            = &quot;html_footer.html&quot;</div></div><!-- fragment --> </div></div><!-- contents -->
+<div class="textblock"><div class="image">
+<img src="../../ClassDiagram.png" alt="ClassDiagram.png"/>
+</div>
+<p> <b>Note</b>: Not all classes, but all self programmed and important classes are pictured above.</p>
+<p>This class diagram presents the classes and namespaces in <a class="el" href="../../d4/d59/struct_complex.html" title="Datastructure holding a complex numbers in cartesian form. ">Complex</a> Number Shell. It also shows the inheritance and associations. The main class in the middle is the <a class="el" href="../../dc/dfb/class_c_l_i.html" title="Interaction with user and processing input. ">CLI</a>. It is responsible for the communication with the user and the processing of input commands. For dealing with complex numbers the <a class="el" href="../../d4/d59/struct_complex.html" title="Datastructure holding a complex numbers in cartesian form. ">Complex</a> class is used. This class has the <a class="el" href="../../df/d67/struct_exponential.html" title="Datastructure holding a complex numbers in euler form. ">Exponential</a> class as a extension to deal with complex numbers in the exponential form. Calculations with complex numbers are made with the <a class="el" href="../../d5/da7/namespace_complex_shunting_yard.html" title="Evaluate mathematical expression in infix notation. ">ComplexShuntingYard</a> class. On the right are all <a class="el" href="../../dc/dfb/class_c_l_i.html" title="Interaction with user and processing input. ">CLI</a> functions listed. They all inherit from <a class="el" href="../../d2/dba/struct_cli_func.html" title="Interface class for all CLI functions. ">CliFunc</a>. These functions can be called via a command in the input of the <a class="el" href="../../dc/dfb/class_c_l_i.html" title="Interaction with user and processing input. ">CLI</a>. The <a class="el" href="../../d7/d62/class_help_func.html" title="Output of docstring for every CLIfuncs function. ">HelpFunc</a> in addition uses the class widthstream, that is responsible for a formatted output of help docs. It is capable of giving a help output for all functions or only for a wanted function. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

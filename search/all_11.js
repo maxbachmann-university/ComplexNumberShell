@@ -10,7 +10,7 @@ var searchData=
   ['rawmemorytostring',['rawMemoryToString',['../d0/dad/namespace_catch_1_1_detail.html#ac5d6c510e565ee5bddcc2236194ce29e',1,'Catch::Detail::rawMemoryToString(const void *object, std::size_t size)'],['../d0/dad/namespace_catch_1_1_detail.html#a371620ed524abfcae5c3772bf49b563a',1,'Catch::Detail::rawMemoryToString(const T &amp;object)']]],
   ['read_5fnew_5fcommand',['read_new_command',['../dc/dfb/class_c_l_i.html#a5784489fd2cdea57d79a6521a37c1dac',1,'CLI']]],
   ['readbom',['ReadBOM',['../d6/db0/classtinyxml2_1_1_x_m_l_util.html#ae9bcb2bc3cd6475fdc644c8c17790555',1,'tinyxml2::XMLUtil']]],
-  ['readme_2emd',['README.md',['../d5/d1f/documentation_2doxygen__config_2doxygen-dark-theme_2_r_e_a_d_m_e_8md.html',1,'(Global Namespace)'],['../d9/dd6/_r_e_a_d_m_e_8md.html',1,'(Global Namespace)']]],
+  ['readme_2emd',['Readme.md',['../dd/dfd/_readme_8md.html',1,'']]],
   ['real',['real',['../d4/d59/struct_complex.html#a247714e7b452d0143af641b458a90873',1,'Complex::real() const'],['../d4/d59/struct_complex.html#abe3f7eb77166b166f9957c2d8f4fbf8f',1,'Complex::real(T val)'],['../d2/d79/_complex_8hpp.html#ad024131f3dbdfbe5a74444d8ca6e0ad1',1,'real(const Complex&lt; T &gt; &amp;z):&#160;Complex.hpp'],['../d2/d79/_complex_8hpp.html#af8dd93c6fffdade070bdde7edf9ed171',1,'real(const T &amp;z):&#160;Complex.hpp']]],
   ['realfunc',['RealFunc',['../d0/da5/class_real_func.html',1,'RealFunc'],['../d0/da5/class_real_func.html#a363f604f1002ad6cf7d6e734b12366ed',1,'RealFunc::RealFunc()']]],
   ['realfunc_2ehpp',['RealFunc.hpp',['../d8/d2f/_real_func_8hpp.html',1,'']]],

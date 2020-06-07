@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['doxygen_20dark_20theme',['Doxygen dark theme',['../d9/da4/autotoc_md0.html',1,'']]],
   ['data',['data',['../dd/d6c/class_catch_1_1_string_ref.html#ab0f85edde9f97153fc758fac3bb14507',1,'Catch::StringRef']]],
   ['decomposer',['Decomposer',['../da/d49/struct_catch_1_1_decomposer.html',1,'Catch']]],
   ['deepclone',['DeepClone',['../de/d13/classtinyxml2_1_1_x_m_l_node.html#a3bb369fd733f1989b751d99a9417adab',1,'tinyxml2::XMLNode']]],
