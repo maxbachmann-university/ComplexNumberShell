@@ -1,0 +1,55 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build-linux:
+    name: Build ComplexNumberShell on ${{ matrix.os }}
+    runs-on: ubuntu-18.04
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: configure
+      run: mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=RELEASE
+    - name: build
+      run: cmake --build build --config Release
+
+    - name: upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ComplexNumberShell_Linux
+        path: ./build/ComplexNumberShell
+
+  build-mac:
+    name: Build ComplexNumberShell on Mac OS
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: configure
+      run: mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=RELEASE
+    - name: build
+      run: cmake --build build --config Release
+
+    - name: upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ComplexNumberShell_MacOS
+        path: ./build/ComplexNumberShell
+
+  build-windows:
+    name: Build ComplexNumberShell on windows
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: configure
+      run: mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=RELEASE
+    - name: build
+      run: cmake --build build --config Release
+
+    - name: upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: ComplexNumberShell_Windows
+        path: ./build/release/ComplexNumberShell.exe

@@ -18,7 +18,7 @@ void CliParser::subsitute_variables(std::string& command,
       matches.emplace_back(match[2].str(), match.position(2));
     }
 
-    signed int pos_change = 0;
+    int pos_change = 0;
     for (const auto& match : matches) {
       if (variables.count(match.first) == 0) {
         throw std::invalid_argument("NameError: name '" + match.first +
@@ -28,7 +28,7 @@ void CliParser::subsitute_variables(std::string& command,
       const std::string replacement = variables.at(match.first).str();
       command.replace(match.second + pos_change, match.first.length(),
                       replacement);
-      pos_change += replacement.length() - match.first.length();
+      pos_change += static_cast<int>(replacement.length() - match.first.length());
     }
   }
 }

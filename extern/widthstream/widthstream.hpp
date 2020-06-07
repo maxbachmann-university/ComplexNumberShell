@@ -15,7 +15,7 @@ public:
   /**
    * @brief Line-buffering stream buffer.
    */
-  widthbuf(int w, std::streambuf* s)
+  widthbuf(size_t w, std::streambuf* s)
       : indent_width(0), def_width(w), width(w), sbuf(s), count(0)
   {}
   ~widthbuf()

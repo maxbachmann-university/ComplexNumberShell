@@ -3,10 +3,20 @@
 
 ## Compile
 
+Build ComplexNumberShell
 ```bash
-g++ main.cpp src/ComplexShuntingYard.cpp src/CLI.cpp src/widthstream.cpp src/CliFuncs/HelpFunc.cpp src/CliParser.cpp src/Utils.cpp src/CliFunc.cpp src/XmlCommandLogger.cpp extern/tinyxml2/tinyxml2.cpp -o ComplexNumberShell -std=c++17 -I include -I extern
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=RELEASE
+cmake --build . --config Release
 ./ComplexNumberShell
 ```
+
+Build Documentation (can be found online on [github pages](http://maxbachmann-university.github.io/ComplexNumberShell/))
+```bash
+doxygen Doxyfile
+```
+
 
 ## Usage
 ### Calculations

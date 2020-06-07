@@ -45,7 +45,7 @@ widthbuf::int_type widthbuf::overflow(int_type c)
     buffer += c;
     count = 0;
     sbuf->sputn(prefix.c_str(), indent_width);
-    int_type rc = sbuf->sputn(buffer.c_str(), buffer.size());
+    int_type rc = static_cast<int_type>(sbuf->sputn(buffer.c_str(), buffer.size()));
     buffer.clear();
     return rc;
   }

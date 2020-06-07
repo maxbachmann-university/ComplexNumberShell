@@ -2,4 +2,4 @@ cpp_files = src/ComplexShuntingYard.cpp src/CLI.cpp src/CliFuncs/HelpFunc.cpp sr
 include_dirs = -I include -I extern
 
 compile:
-	g++ main.cpp $(cpp_files) $(include_dirs) -o ComplexNumberShell -std=c++17
+	g++ ComplexNumberShell.cpp $(cpp_files) $(include_dirs) -o ComplexNumberShell -std=c++17
