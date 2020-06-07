@@ -6,5 +6,5 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "CliParser.cpp", "db/d4a/_cli_parser_8cpp.html", null ],
     [ "ComplexShuntingYard.cpp", "d3/d46/_complex_shunting_yard_8cpp.html", "d3/d46/_complex_shunting_yard_8cpp" ],
     [ "Utils.cpp", "d6/dad/_utils_8cpp.html", "d6/dad/_utils_8cpp" ],
-    [ "XmlCommandLogger.cpp", "d7/db7/_xml_command_logger_8cpp.html", null ]
+    [ "XmlCommandLogger.cpp", "d7/db7/_xml_command_logger_8cpp.html", "d7/db7/_xml_command_logger_8cpp" ]
 ];

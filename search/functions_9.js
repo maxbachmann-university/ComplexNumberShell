@@ -7,6 +7,7 @@ var searchData=
   ['license',['license',['../d2/d42/_l_i_c_e_n_s_e__1__0_8txt.html#a32327c22ecdfc749961a4589eda96730',1,'LICENSE_1_0.txt']]],
   ['linkendchild',['LinkEndChild',['../de/d13/classtinyxml2_1_1_x_m_l_node.html#a663e3a5a378169fd477378f4d17a7649',1,'tinyxml2::XMLNode']]],
   ['loadfile',['LoadFile',['../dc/d59/classtinyxml2_1_1_x_m_l_document.html#a2ebd4647a8af5fc6831b294ac26a150a',1,'tinyxml2::XMLDocument::LoadFile(const char *filename)'],['../dc/d59/classtinyxml2_1_1_x_m_l_document.html#a5f1d330fad44c52f3d265338dd2a6dc2',1,'tinyxml2::XMLDocument::LoadFile(FILE *)']]],
+  ['localtime_5fxp',['localtime_xp',['../d7/db7/_xml_command_logger_8cpp.html#a2576e293d00cff647fa1986f8aab95a6',1,'XmlCommandLogger.cpp']]],
   ['log',['log',['../d2/d79/_complex_8hpp.html#a58e9233b398affaa6a938fdfcc6605cb',1,'Complex.hpp']]],
   ['log10',['log10',['../d2/d79/_complex_8hpp.html#adc10b467c8956fe9b2cc9b543d245f72',1,'Complex.hpp']]],
   ['log10func',['Log10Func',['../d7/d48/class_log10_func.html#a6387d3b881fa2556c1cc7ba0f4bac798',1,'Log10Func']]],

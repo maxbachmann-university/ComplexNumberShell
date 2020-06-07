@@ -172,6 +172,7 @@ var NAVTREEINDEX2 =
 "d7/daf/_help_func_8hpp.html":[3,0,1,0,6],
 "d7/daf/_help_func_8hpp_source.html":[3,0,1,0,6],
 "d7/db7/_xml_command_logger_8cpp.html":[3,0,2,6],
+"d7/db7/_xml_command_logger_8cpp.html#a2576e293d00cff647fa1986f8aab95a6":[3,0,2,6,0],
 "d7/dc8/widthstream_8hpp.html":[3,0,0,2,1],
 "d7/dc8/widthstream_8hpp_source.html":[3,0,0,2,1],
 "d7/dd0/_help_func_8cpp.html":[3,0,2,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "d9/d1e/classtinyxml2_1_1_x_m_l_handle.html#aa387368a1ad8d843a9f12df863d298de":[2,0,2,11,16],
 "d9/d1e/classtinyxml2_1_1_x_m_l_handle.html#aad2eccc7c7c7b18145877c978c3850b5":[2,0,2,11,7],
 "d9/d1e/classtinyxml2_1_1_x_m_l_handle.html#ae41d88ee061f3c49a081630ff753b2c5":[2,0,2,11,8],
-"d9/d1e/classtinyxml2_1_1_x_m_l_handle.html#afd8e01e6018c07347b8e6d80272466aa":[2,0,2,11,2],
-"d9/d20/_credits_func_8hpp.html":[3,0,1,0,4]
+"d9/d1e/classtinyxml2_1_1_x_m_l_handle.html#afd8e01e6018c07347b8e6d80272466aa":[2,0,2,11,2]
 };

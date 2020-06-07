@@ -10,7 +10,7 @@ var searchData=
   ['when',['When',['../de/def/struct_catch_1_1_wait_for_keypress.html#a2e8c4369d0a605d64e3e83b5af3399ba',1,'Catch::WaitForKeypress::When()'],['../d9/de1/catch_8hpp.html#ab09e9b8186233f676ce6a23aebe89d6e',1,'WHEN():&#160;catch.hpp']]],
   ['whitespace',['Whitespace',['../da/dce/namespacetinyxml2.html#a7f91d00f77360f850fd5da0861e27dd5',1,'tinyxml2']]],
   ['whitespacemode',['WhitespaceMode',['../dc/d59/classtinyxml2_1_1_x_m_l_document.html#a810ce508e6e0365497c2a9deb83c9ca7',1,'tinyxml2::XMLDocument']]],
-  ['widthbuf',['widthbuf',['../dc/d88/classwidthbuf.html',1,'widthbuf'],['../dc/d88/classwidthbuf.html#af61300f240a5325a93d17bcb2b3d88b5',1,'widthbuf::widthbuf()']]],
+  ['widthbuf',['widthbuf',['../dc/d88/classwidthbuf.html',1,'widthbuf'],['../dc/d88/classwidthbuf.html#ac1f4a39ecf88db1ac30776d04c2d8fa9',1,'widthbuf::widthbuf()']]],
   ['widthstream',['widthstream',['../d9/d67/classwidthstream.html',1,'widthstream'],['../d9/d67/classwidthstream.html#ac6effd346389b6f6a4275f88a1858935',1,'widthstream::widthstream()']]],
   ['widthstream_2ecpp',['widthstream.cpp',['../dd/dae/widthstream_8cpp.html',1,'']]],
   ['widthstream_2ehpp',['widthstream.hpp',['../d7/dc8/widthstream_8hpp.html',1,'']]],

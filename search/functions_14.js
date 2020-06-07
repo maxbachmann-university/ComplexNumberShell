@@ -4,7 +4,7 @@ var searchData=
   ['warnaboutnotests',['warnAboutNoTests',['../dc/d57/struct_catch_1_1_i_config.html#a30590623e3918825f2896c2262bf6fe3',1,'Catch::IConfig']]],
   ['what',['what',['../dc/d8e/class_catch_1_1_generator_exception.html#ade029163144d136f12187e5b9a0161d5',1,'Catch::GeneratorException']]],
   ['whitespacemode',['WhitespaceMode',['../dc/d59/classtinyxml2_1_1_x_m_l_document.html#a810ce508e6e0365497c2a9deb83c9ca7',1,'tinyxml2::XMLDocument']]],
-  ['widthbuf',['widthbuf',['../dc/d88/classwidthbuf.html#af61300f240a5325a93d17bcb2b3d88b5',1,'widthbuf']]],
+  ['widthbuf',['widthbuf',['../dc/d88/classwidthbuf.html#ac1f4a39ecf88db1ac30776d04c2d8fa9',1,'widthbuf']]],
   ['widthstream',['widthstream',['../d9/d67/classwidthstream.html#ac6effd346389b6f6a4275f88a1858935',1,'widthstream']]],
   ['withinabs',['WithinAbs',['../d2/d95/namespace_catch_1_1_matchers.html#a4c9ea76d47d02de0cf2d354c87c26e95',1,'Catch::Matchers']]],
   ['withinabsmatcher',['WithinAbsMatcher',['../df/d11/struct_catch_1_1_matchers_1_1_floating_1_1_within_abs_matcher.html#ac45340b98c41230a7def5bd86c2d870f',1,'Catch::Matchers::Floating::WithinAbsMatcher']]],

@@ -1,5 +1,6 @@
 var NAVTREEINDEX5 =
 {
+"db/d87/struct_catch_1_1_message_info.html#afac7a84a9e8655428035a3c5418044f0":[2,0,0,38,0],
 "db/da7/class_pow_func.html":[2,0,21],
 "db/da7/class_pow_func.html#a18eb95f38495328ab281cc6914706a58":[2,0,21,2],
 "db/da7/class_pow_func.html#a3bc3f2da800a3caa357c8c1bab4616bd":[2,0,21,0],
@@ -166,7 +167,7 @@ var NAVTREEINDEX5 =
 "dc/d88/classwidthbuf.html":[2,0,30],
 "dc/d88/classwidthbuf.html#a4656cc4594735ed60bd5e6bd4bcd08fc":[2,0,30,2],
 "dc/d88/classwidthbuf.html#aab4f6f897d40d477340ee188a1926db0":[2,0,30,1],
-"dc/d88/classwidthbuf.html#af61300f240a5325a93d17bcb2b3d88b5":[2,0,30,0],
+"dc/d88/classwidthbuf.html#ac1f4a39ecf88db1ac30776d04c2d8fa9":[2,0,30,0],
 "dc/d8e/class_catch_1_1_generator_exception.html":[2,0,0,15],
 "dc/d8e/class_catch_1_1_generator_exception.html#a3cf9282d555ec32389665ce723bf36ea":[2,0,0,15,0],
 "dc/d8e/class_catch_1_1_generator_exception.html#ade029163144d136f12187e5b9a0161d5":[2,0,0,15,1],
@@ -218,8 +219,8 @@ var NAVTREEINDEX5 =
 "dd/d6c/class_catch_1_1_string_ref.html#acb22719801de2b64361b4c283080d4e5":[2,0,0,86,16],
 "dd/d6c/class_catch_1_1_string_ref.html#ad9fde21785affacc32d7da7a70d74e93":[2,0,0,86,12],
 "dd/d6c/class_catch_1_1_string_ref.html#aea45f5089c53adac362bff6bd7c40943":[2,0,0,86,3],
-"dd/d7f/namespace_catch_1_1_generators.html":[2,0,0,1],
 "dd/d7f/namespace_catch_1_1_generators.html":[1,0,0,1],
+"dd/d7f/namespace_catch_1_1_generators.html":[2,0,0,1],
 "dd/d86/class_catch_1_1_capturer.html":[2,0,0,9],
 "dd/d86/class_catch_1_1_capturer.html#a0695ebf77f7cdcb344c73bcb3d9131e4":[2,0,0,9,2],
 "dd/d86/class_catch_1_1_capturer.html#a60d08e6db2e54740bb2298bbbec3bc0b":[2,0,0,9,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX5 =
 "dd/de3/types_8hpp.html#ab2fa00146b24b28198bc660ac8718abf":[3,0,1,8,1],
 "dd/de3/types_8hpp_source.html":[3,0,1,8],
 "de/d0e/class_catch_1_1_generators_1_1_generator_wrapper.html":[2,0,0,1,6],
-"de/d0e/class_catch_1_1_generators_1_1_generator_wrapper.html#a271f0f905f2c473c907550435b81e102":[2,0,0,1,6,1],
-"de/d0e/class_catch_1_1_generators_1_1_generator_wrapper.html#acbfdca94811ae02461bd2cf5f60b666e":[2,0,0,1,6,2]
+"de/d0e/class_catch_1_1_generators_1_1_generator_wrapper.html#a271f0f905f2c473c907550435b81e102":[2,0,0,1,6,1]
 };
