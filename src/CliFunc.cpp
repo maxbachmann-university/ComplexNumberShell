@@ -21,6 +21,9 @@ void CliFunc::args_expect(const arg_list& args, std::size_t min,
   }
 }
 
+/**
+ * Substitute all variables and return calculated result of CliFunc::call_impl.
+ */
 call_result CliFunc::call(arg_list args, const var_mapping& variables) const
 {
   args_expect(args, arg_count_min, arg_count_max);

@@ -1,5 +1,8 @@
 #include "CliParser.hpp"
 
+/**
+ * Substitutes all variables in input command with their complex expression.
+ */
 void CliParser::subsitute_variables(std::string& command,
                                     const var_mapping& variables)
 {
@@ -30,6 +33,10 @@ void CliParser::subsitute_variables(std::string& command,
   }
 }
 
+/**
+ * Finding the functions on the top level.
+ * Returns the position of the functions including it's brackets as vector with FuncPos.
+ */
 std::vector<CliParser::FuncPos>
 CliParser::find_top_level_function_calls(std::string sample)
 {

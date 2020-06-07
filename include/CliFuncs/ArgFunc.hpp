@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
 
+/**
+ * @brief Return phase angle.
+ */
 class ArgFunc : public CliFunc {
 public:
   ArgFunc() : CliFunc("arg", 1, 1)

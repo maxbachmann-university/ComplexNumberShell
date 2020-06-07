@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
 
+/**
+ * @brief Returns base^exponent.
+ */
 class PowFunc : public CliFunc {
 public:
   PowFunc() : CliFunc("pow", 2, 2)

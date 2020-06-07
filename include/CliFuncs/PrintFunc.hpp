@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include <iostream>
 
+/**
+ * @brief Print complex number in cartesian form.
+ */
 class PrintFunc : public CliFunc {
 public:
   PrintFunc()
@@ -22,6 +25,9 @@ public:
   }
 };
 
+/**
+ * @brief Print complex number in euler form.
+ */
 class EulerPrintFunc : public CliFunc {
 public:
   EulerPrintFunc() : CliFunc("euler_print", 1, 1)

@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
 
+/**
+ * @brief return Complex base e exponential
+ */
 class ExpFunc : public CliFunc {
 public:
   ExpFunc() : CliFunc("exp", 1, 1)

@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
 
+/**
+ * @brief Return imaginary component of the complex number.
+ */
 class ImagFunc : public CliFunc {
 public:
   ImagFunc() : CliFunc("imag", 1, 1)

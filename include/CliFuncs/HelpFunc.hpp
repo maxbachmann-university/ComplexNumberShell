@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 
+/**
+ * @brief Output of docstring for every CLIfuncs function.
+ */
 class HelpFunc : public CliFunc {
 public:
   HelpFunc(std::vector<std::shared_ptr<CliFunc>> calc_commands,
@@ -15,6 +18,9 @@ public:
         global_commands(global_commands)
   {}
 
+  /**
+   * Output of docstrings for every function.
+   */
   call_result call(arg_list args, const var_mapping&) const override;
 
   std::string docstring() const override;

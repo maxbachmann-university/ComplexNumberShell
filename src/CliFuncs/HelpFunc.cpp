@@ -1,6 +1,11 @@
 #include "CliFuncs/HelpFunc.hpp"
 #include "Utils.hpp"
 
+/**
+ * If no argument is passed this function will print the docstring for all
+ * global and calculation functions.
+ * Otherwise it will print the docstring of the desired function.
+ */
 call_result HelpFunc::call(arg_list args, const var_mapping&) const
 {
   widthstream out(200, std::cout);

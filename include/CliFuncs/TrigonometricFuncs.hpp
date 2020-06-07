@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
 
+/**
+ * @brief Return Complex sine.
+ */
 class SinFunc : public CliFunc {
 public:
   SinFunc() : CliFunc("sin", 1, 1)
@@ -19,6 +22,9 @@ public:
   }
 };
 
+/**
+ * @brief Return Complex hyperbolic sine.
+ */
 class SinhFunc : public CliFunc {
 public:
   SinhFunc() : CliFunc("sinh", 1, 1)
@@ -36,6 +42,9 @@ public:
   }
 };
 
+/**
+ * @brief Return Complex cosine.
+ */
 class CosFunc : public CliFunc {
 public:
   CosFunc() : CliFunc("cos", 1, 1)
@@ -53,6 +62,9 @@ public:
   }
 };
 
+/**
+ * @brief Return Complex hyperbolic cosine.
+ */
 class CoshFunc : public CliFunc {
 public:
   CoshFunc() : CliFunc("cosh", 1, 1)
@@ -70,6 +82,9 @@ public:
   }
 };
 
+/**
+ * @brief Return Complex tangent cosine.
+ */
 class TanFunc : public CliFunc {
 public:
   TanFunc() : CliFunc("tan", 1, 1)
@@ -87,6 +102,9 @@ public:
   }
 };
 
+/**
+ * @brief Return Complex hyperbolic tangent.
+ */
 class TanhFunc : public CliFunc {
 public:
   TanhFunc() : CliFunc("tanh", 1, 1)

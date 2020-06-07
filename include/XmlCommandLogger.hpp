@@ -6,10 +6,16 @@
 
 #include "types.hpp"
 
+/**
+ * @brief XML Logger for all commands and results.
+ */
 class XmlCommandLogger {
 public:
   XmlCommandLogger();
 
+  /**
+   * @brief Logging command.
+   */
   void logCommand(std::string command, call_result result);
 
 private:

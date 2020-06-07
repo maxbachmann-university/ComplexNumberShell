@@ -2,6 +2,9 @@
 #include "CliFunc.hpp"
 #include "ComplexShuntingYard.hpp"
 
+/**
+ * @brief Return magnitude.
+ */
 class AbsFunc : public CliFunc {
 public:
   AbsFunc() : CliFunc("abs", 1, 1)
