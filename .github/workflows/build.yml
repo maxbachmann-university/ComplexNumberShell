@@ -52,4 +52,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: ComplexNumberShell_Windows
-        path: ./build/release/ComplexNumberShell.exe
+        path: ./build
