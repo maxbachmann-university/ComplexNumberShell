@@ -31,7 +31,7 @@ std::string Exponential<T>::str() const
 }
 
 /**
- * Add the euler form of a complex number to an output stream
+ * Add the euler form of a complex number to an output stream.
  */
 template <typename T, typename CharT, typename Traits>
 std::basic_ostream<CharT, Traits>&
