@@ -3,7 +3,7 @@
 ## Class Diagram
 
 \image html media/ClassDiagram.png
-**Note**: Not all classes, but all self programmed and important classes are pictured above.
+**Note**: Not all classes, but all self programmed and important classes are pictured above. This diagram should give a overview on the project.
 
 This class diagram presents the classes and namespaces in Complex Number Shell.
 It also shows the inheritance and associations.
