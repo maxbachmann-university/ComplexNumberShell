@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(include extern)
 add_executable(ComplexNumberShell ComplexNumberShell.cpp src/ComplexShuntingYard.cpp src/CLI.cpp src/CliFuncs/HelpFunc.cpp src/CliParser.cpp src/Utils.cpp src/CliFunc.cpp src/XmlCommandLogger.cpp extern/tinyxml2/tinyxml2.cpp extern/widthstream/widthstream.cpp)
 
+enable_testing()
+
 add_library(catch2_lib OBJECT
     tests/mainTesting.cpp
 )
@@ -15,3 +17,6 @@ target_link_libraries(TestComplexShuntingYard catch2_lib)
 
 add_executable(TestComplex tests/TestComplex.cpp)
 target_link_libraries(TestComplex catch2_lib)
+
+add_test(TestComplexShuntingYard tests/TestComplexShuntingYard.cpp)
+add_test(TestComplex tests/TestComplex.cpp)
