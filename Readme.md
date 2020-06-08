@@ -31,26 +31,21 @@ Example:
 > (1+1i) + (1 - 1i)
 (2+0j)
 > a = 1 + 1j
-> (a - 1i) * 4 * (1 - 1i)
-(4-4j)
+> ((a - 1i)+2i) * 4 * (1 - 1i)
+(12+4j)
 ```
 
 ### Assignments
 
 It is possible to assign the results of calculations to variables.
 Operators (e.g. *) can not be used in variable names
-It is possible to save a complex number into two variables in the form (a,b)
-where the real part is stored in a and the imaginary part in b
-
 Example:
 ```console
-> example_var1 = real, complex = 1+1j
-> example_var1
+> a = b = 1+1j
+> a
 (1+1j)
-> real
-(1+0j)
-> complex
-1j
+> b
+(1+1j)
 ```
 
 ### Commands

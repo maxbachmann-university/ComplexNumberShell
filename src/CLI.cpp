@@ -129,32 +129,7 @@ void CLI::assign_result(const std::vector<std::string>& assignments,
   }
 
   for (const auto& assignment : assignments) {
-    std::size_t comma_pos = 0;
-    for (std::size_t i = 0; i < assignment.length(); ++i) {
-      const char ch = assignment[i];
-      if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
-        throw std::invalid_argument("SyntaxError: can't assign to operator");
-      }
-      if (ch == ',') {
-        if (i == 0) {
-          throw std::invalid_argument("SyntaxError: Invalid syntax");
-        }
-        if (comma_pos) {
-          throw std::invalid_argument(
-              "SyntaxError: can only unpack complex to 1 or 2 variables");
-        }
-        comma_pos = i;
-      }
-    }
-
-    if (comma_pos) {
-      variable_mapping[assignment.substr(0, comma_pos)] = real(result);
-      variable_mapping[assignment.substr(comma_pos + 1)] =
-          Complex<double>(0, imag(result));
-    }
-    else {
-      variable_mapping[assignment] = result;
-    }
+    variable_mapping[assignment] = result;
   }
 }
 
