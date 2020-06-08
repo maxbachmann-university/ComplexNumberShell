@@ -84,3 +84,30 @@ TEST_CASE( "evaluate two different complex numbers", "[evaluate]" ) {
         REQUIRE( result.imag() == Approx(-3.21599) );
     }
 }
+
+TEST_CASE( "evaluate two complex numbers and resolve +/-", "[evaluate]" ) {
+
+    SECTION( "+ +" ) {
+        
+        std::string inputString = "(1+1i) + + (7+7i)";
+        auto result = ComplexShuntingYard::evaluate(inputString);
+        REQUIRE( result.real() == Approx(8) );
+        REQUIRE( result.imag() == Approx(8) );
+    }
+
+    SECTION( "+ -" ) {
+        
+        std::string inputString = "(1+1i) + - (7+7i)";
+        auto result = ComplexShuntingYard::evaluate(inputString);
+        REQUIRE( result.real() == Approx(-6) );
+        REQUIRE( result.imag() == Approx(-6) );
+    }
+
+    SECTION( "- -" ) {
+        
+        std::string inputString = "(1+1i) - - (7+7i)";
+        auto result = ComplexShuntingYard::evaluate(inputString);
+        REQUIRE( result.real() == Approx(8) );
+        REQUIRE( result.imag() == Approx(8) );
+    }
+}
