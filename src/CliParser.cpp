@@ -45,12 +45,14 @@ CliParser::find_top_level_function_calls(std::string sample)
   std::size_t word_len = 0;
   std::size_t bracket_start = 0;
   std::size_t bracket_count = 0;
+  bool is_command = false;
   for (std::size_t i = 0; i < sample.size(); i++) {
     if (sample[i] == '(') {
       if (bracket_count) {
         ++bracket_count;
       }
       else if (word_len + word_start == i) {
+        is_command = true;
         bracket_count = 1;
         bracket_start = i;
       }
@@ -59,7 +61,7 @@ CliParser::find_top_level_function_calls(std::string sample)
         word_start = 0;
       }
     }
-    else if (sample[i] == ')') {
+    else if (is_command && sample[i] == ')') {
       if (bracket_count) {
         --bracket_count;
       }
@@ -69,6 +71,7 @@ CliParser::find_top_level_function_calls(std::string sample)
       }
     }
     else if (!word_len && is_char_underscore(sample[i])) {
+      is_command = false;
       word_len = 1;
       word_start = i;
     }
