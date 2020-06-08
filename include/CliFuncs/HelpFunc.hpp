@@ -41,8 +41,8 @@ private:
         >>> (1+1i) + (1 - 1i)
         (2+0j)
         >>> a = 1 + 1j
-        >>> (a - 1i) * 4 * (1 - 1i)
-        (4-4j)
+        >>> (a - 1i) * 4 * ((1 - 1i) + 2 * e^8j)
+        (2.836000-11.914864j)
 )";
 
   static constexpr const char* assignments_docstring =
