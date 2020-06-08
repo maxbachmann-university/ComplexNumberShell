@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Complex Number Shell: include/Exponential.hpp File Reference</title>
+<title>Complex Number Shell: tests/TestComplex.cpp File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('df/d9e/_exponential_8hpp.html','../../');});
+$(document).ready(function(){initNavTree('d6/dae/_test_complex_8cpp.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -82,49 +82,40 @@ $(document).ready(function(){initNavTree('df/d9e/_exponential_8hpp.html','../../
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">Exponential.hpp File Reference</div>  </div>
+<div class="title">TestComplex.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;ostream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-</div>
-<p><a href="../../df/d9e/_exponential_8hpp_source.html">Go to the source code of this file.</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d67/struct_exponential.html">Exponential&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Datastructure holding a complex numbers in euler form.  <a href="../../df/d67/struct_exponential.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
+<div class="textblock"><code>#include &quot;<a class="el" href="../../d9/de1/catch_8hpp_source.html">catch2/catch.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d2/d79/_complex_8hpp_source.html">Complex.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../df/d9e/_exponential_8hpp_source.html">Exponential.hpp</a>&quot;</code><br />
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a97fd8aaeebcb6214a58cdf340ad3ec9b"><td class="memTemplParams" colspan="2">template&lt;typename T , typename CharT , typename Traits &gt; </td></tr>
-<tr class="memitem:a97fd8aaeebcb6214a58cdf340ad3ec9b"><td class="memTemplItemLeft" align="right" valign="top">std::basic_ostream&lt; CharT, Traits &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../df/d9e/_exponential_8hpp.html#a97fd8aaeebcb6214a58cdf340ad3ec9b">operator&lt;&lt;</a> (std::basic_ostream&lt; CharT, Traits &gt; &amp;os, const <a class="el" href="../../df/d67/struct_exponential.html">Exponential</a>&lt; T &gt; &amp;exp_z)</td></tr>
-<tr class="separator:a97fd8aaeebcb6214a58cdf340ad3ec9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a577628281fe3ff4fc7bea13889b406"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dae/_test_complex_8cpp.html#a2a577628281fe3ff4fc7bea13889b406">TEST_CASE</a> (&quot;convert complex number&quot;, &quot;[complex]&quot;)</td></tr>
+<tr class="separator:a2a577628281fe3ff4fc7bea13889b406"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1befe1c5097da7f205c4372cd5d83d7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dae/_test_complex_8cpp.html#ab1befe1c5097da7f205c4372cd5d83d7">TEST_CASE</a> (&quot;basic complex functions&quot;, &quot;[complex]&quot;)</td></tr>
+<tr class="separator:ab1befe1c5097da7f205c4372cd5d83d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a97fd8aaeebcb6214a58cdf340ad3ec9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97fd8aaeebcb6214a58cdf340ad3ec9b">&#9670;&nbsp;</a></span>operator<<()</h2>
+<a id="a2a577628281fe3ff4fc7bea13889b406"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a577628281fe3ff4fc7bea13889b406">&#9670;&nbsp;</a></span>TEST_CASE() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T , typename CharT , typename Traits &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::basic_ostream&lt;CharT, Traits&gt;&amp; operator&lt;&lt; </td>
+          <td class="memname">TEST_CASE </td>
           <td>(</td>
-          <td class="paramtype">std::basic_ostream&lt; CharT, Traits &gt; &amp;&#160;</td>
-          <td class="paramname"><em>os</em>, </td>
+          <td class="paramtype">&quot;convert complex number&quot;&#160;</td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="../../df/d67/struct_exponential.html">Exponential</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>exp_z</em>&#160;</td>
+          <td class="paramtype">&quot;&quot;&#160;</td>
+          <td class="paramname">[complex]&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -133,7 +124,34 @@ template&lt;typename T , typename CharT , typename Traits &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Add the euler form of a complex number to an output stream. </p>
+
+</div>
+</div>
+<a id="ab1befe1c5097da7f205c4372cd5d83d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1befe1c5097da7f205c4372cd5d83d7">&#9670;&nbsp;</a></span>TEST_CASE() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST_CASE </td>
+          <td>(</td>
+          <td class="paramtype">&quot;basic complex functions&quot;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&quot;&quot;&#160;</td>
+          <td class="paramname">[complex]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -142,7 +160,7 @@ template&lt;typename T , typename CharT , typename Traits &gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="../../df/d9e/_exponential_8hpp.html">Exponential.hpp</a></li>
+    <li class="navelem"><a class="el" href="../../dir_59425e443f801f1f2fd8bbe4959a3ccf.html">tests</a></li><li class="navelem"><a class="el" href="../../d6/dae/_test_complex_8cpp.html">TestComplex.cpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.13 </li>

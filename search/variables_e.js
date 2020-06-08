@@ -8,5 +8,5 @@ var searchData=
   ['prevassertions',['prevAssertions',['../d7/d31/struct_catch_1_1_section_end_info.html#ae70b154cbc05b5dd2901d97f89303d8c',1,'Catch::SectionEndInfo']]],
   ['product',['product',['../dc/d5f/_license_8txt.html#a838fb6a57511d23c6cd81790bef7f4ee',1,'License.txt']]],
   ['properties',['properties',['../d1/d61/struct_catch_1_1_test_case_info.html#afc1e84bd7a2e180895a06d9131302af0',1,'Catch::TestCaseInfo']]],
-  ['purpose',['PURPOSE',['../d2/d42/_l_i_c_e_n_s_e__1__0_8txt.html#aa708dac3959aad55f7e2a2dc06ab5483',1,'PURPOSE():&#160;LICENSE_1_0.txt'],['../dc/d5f/_license_8txt.html#a18c6b81f4493c7161ee0f2ecfa98f93a',1,'purpose():&#160;License.txt']]]
+  ['purpose',['purpose',['../dc/d5f/_license_8txt.html#a18c6b81f4493c7161ee0f2ecfa98f93a',1,'purpose():&#160;License.txt'],['../d2/d42/_l_i_c_e_n_s_e__1__0_8txt.html#aa708dac3959aad55f7e2a2dc06ab5483',1,'PURPOSE():&#160;LICENSE_1_0.txt']]]
 ];

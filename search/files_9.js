@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['quitfunc_2ehpp',['QuitFunc.hpp',['../d8/d38/_quit_func_8hpp.html',1,'']]]
+  ['powfunc_2ehpp',['PowFunc.hpp',['../d0/d3e/_pow_func_8hpp.html',1,'']]],
+  ['printfunc_2ehpp',['PrintFunc.hpp',['../d6/d19/_print_func_8hpp.html',1,'']]]
 ];
