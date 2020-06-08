@@ -17,6 +17,3 @@ target_link_libraries(TestComplexShuntingYard catch2_lib)
 
 add_executable(TestComplex tests/TestComplex.cpp)
 target_link_libraries(TestComplex catch2_lib)
-
-add_test(TestComplexShuntingYard tests/TestComplexShuntingYard.cpp)
-add_test(TestComplex tests/TestComplex.cpp)
